@@ -1,14 +1,14 @@
-#巩固使用css3中新特性transition和transform的案例-扇形导航
+# 利用transition和transform完成扇形导航+自述
 这里是一个自学前端的软件工程专业学生,现在正跟着尚硅谷的学习大纲和对应的网上视频课在学习
 尚硅谷的前端课程分为八个阶段，分别是
 1. 基础阶段
-  html/css基础
-  css2.1
-  css3
-  less
-  Bootstrap
-  HTML5核心技术
-  HTML实战
+   html/css基础
+   css2.1
+   css3
+   less
+   Bootstrap
+   HTML5核心技术
+   HTML实战
 2. 核心&高级
    javascript
    javascript高级
