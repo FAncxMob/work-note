@@ -1,0 +1,264 @@
+## css2.1
+
+**CSS:Cascading  style sheets**<br> 
+[https://www.w3.org/TR/2011/REC-css3-selectors-20110929/](https://www.w3.org/TR/2011/REC-css3-selectors-20110929/ "CSS3选择器规范地址")<br>
+[https://www.w3.org/TR/selectors](https://www.w3.org/TR/selectors "CSS3选择最新选择器规范")<br>
+**[页面元素坐标和偏移整理](https://www.cnblogs.com/skylar/p/4121508.html "页面元素坐标和偏移整理")**<br>
+**[flex布局笔记](https://www.zhangxinxu.com/wordpress/2018/10/display-flex-css3-css/ "display: flex布局笔记")**<br>
+**[flex练习游戏](http://flexboxfroggy.com/ "flex练习游戏")**<br>
+
+
+#### 1.  三列布局(两边固定，当中自适应，当中列要完整且要优先加载)
+
+*  <font color=red>**三列布局**</font>
+		* 左边的div往左浮动，右边的div往右边浮动，中间的div宽度自适应  
+*  <font color=red>**圣杯布局** </font>
+		*  middle  开启浮动，让左右的div可以上来，宽高都为100%<br>
+		   left	   开启浮动，margin-left:-100%，开启定位来调整left<br>
+		   right   开启浮动，margin-left:-200px(此处的200px为左右div的宽度)，开启定位来调整right
+*  <font color=red>**双飞燕布局**</font>(在圣杯布局的基础上，将middle作为一个包裹器包裹在inner外，将本来放在middle中的内容放在inner中，将padding给inner，这样就不用开启定位来调整left和right了）
+		*  给left，right指定固定的宽度，middle的width: 100%;<br>
+		   middle，left，right全部向左浮动(记得清楚浮动！解决高度塌陷问题)<br>
+		   left中，margin-left:-100%<br>
+		   right中，margin-left:-200px<br>
+		   inner的padding:0 200px<br>
+*  <font color=red>**伪等高布局**</font>
+		*  padding-bottom: 10000px;<br>
+		   margin-bottom: -10000px;<br>
+		   包裹的div要overflow:hidden
+*  <font color=red>**滚动条**</font>
+		   <table >
+				<tr>
+					<td ></td>
+					<td >overflow属性</td>
+					<td >overflow属性</td>
+					<td >overflow属性</td>
+				</tr>
+				<tr>
+					<td >body</td>
+					<td >写了(作用于body)</td>
+					<td >没写</td>
+					<td >写了</td>
+				</tr>
+				<tr>
+					<td >html</td>
+					<td >写了(作用于文档)</td>
+					<td >写了</td>
+					<td >没写</td>
+				</tr>
+				<tr>
+					<td >滚动条出现在</td>
+					<td >body,文档</td>
+					<td >文档</td>
+					<td >文档</td>
+				</tr>
+			</table>
+*  <font color=red>**禁止滚动条**</font>
+	*  只有拖动系统滚动条，初始包含块才会动,拖动body的滚动条，是不会使初始包含块移动的
+	  		`html,body{
+				height: 100%;
+				overflow: hidden;
+			}`
+*  <font color=red>**使用绝对定位来模拟固定定位(移动端常用)**</font>
+	*   IE6及以下不支持fixed<br>
+			1. 禁止系统滚动条(在html和body里添加overflow:hidden)
+			2. 将滚动条加给body
+			3. 让body的尺寸变为视口的尺寸(height:100%)<br>
+			`html{
+      				overflow: hidden;
+      				height: 100%;
+      			}`<br>
+    		`body{
+      				overflow:   ;
+      				height: 100%;
+      			}`<br>
+			html上的overflow属性作用给文档，body上的overflow属性作用给自己
+
+#### 2. 黏连布局(sticky Footer)
+
+	经典的"粘连"布局
+	当我们有一块内容弄<main>
+	当<main>的高度足够长的时候，<footer>应该紧跟在<main>元素的后面。
+	当<main>元素比较短的时候(小于屏幕的高度)，我们期望这个<footer>元素能够"粘连"在屏幕的底部
+		结构：
+			<div id="wrap">
+				<div class="main">
+					main
+				</div>	
+			</div>
+			<div id="footer">
+				footer
+			</div>
+		实现方法(负margin)：
+				1.  html，body的height为100%,wrap的min-height为100%
+				2.  main中padding-bottom:50px
+				3.	footer中margin-top:-50px
+				4.	
+#### 3. BFC
+
+**block formating context块格式化上下文**<br>
+*	<font color=red>**再解释BFC是什么之前，需要介绍Box Formatting Context的概念**</font><br>
+		Box：CSS布局的基本单位
+			Box是CSS布局的对象和基本单位，直观点来说就是一个页面是由很多个Box组成的。
+			元素的类型和display属性，决定了这个Box的类型。不同类型的Box，会参与不同的Formatting Context(一个决定如何渲染文档的容器)
+			因此Box内的元素会以不同的方式渲染。让我们看看有哪些盒子：
+				block-level box:
+					display属性为block,list-item,table元素，会生成block-level box。并且参与block formating context(BFC)
+				inline-level box:
+					display属性为inline,inline-block,inline-table元素，会生成inline-level box。并且参与inline formating context(IFC)
+	
+		Formatting context
+			Formatting context是W3C CSS2.1 规范中的一个概念。
+			他是页面中的一块渲染区域，并且有一套渲染规则，他决定了其子元素将如何定位，以及和其他元素的关系和相互作用
+			最常见的BFC和IFC
+
+*  <font color=red>**BFC是什么**</font><br>
+		BFC(block formating context)直译为“块级格式化上下文”。他是一个独立的渲染区域，只有block-level box参与
+		它规定了内部的block-level box如何布局，并且与这个区域外部毫不相干
+		
+*  <font color=red>**BFC布局规则**</font><br>
+		1.内部的Box会在垂直方向，一个接一个地放置
+		2.BFC的区域不会与float box重叠
+		3.内部的Box垂直方向的距离有margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠
+		4.计算BFC的高度时，浮动元素也参与计算。(清除浮动 haslayout)
+		5.BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素，反之也如此
+	
+*  <font color=red>**BFC什么时候出现(哪些元素会生成BFC)**</font><br>
+		根元素
+		float属性不为none
+		position为absolute或fixed
+		overflow不为visible
+		display为inline-block,table-cell,table-caption,flex,inline-flex
+*	<font color=red>**两列布局**</font>	<br>
+	结构：
+	`<div id="left">left</div>`<br>`<div id="right">right</div>`<br>
+	`#left{
+				width: 200px;
+				background: pink;
+				float: left;
+			}`<br>
+	`#right{
+				background: deeppink;
+				overflow: hidden;
+			}`
+*	<font color=red>**溢出显示省略号**</font>	<br>
+	溢出显示省略号 四个条件缺一不可！！<br>
+				`display: block; `<br>
+				`white-space: nowrap;`<br>
+				`text-overflow: ellipsis;`<br>
+				`overflow: hidden;`<br>
+*	<font color=red>**兄弟元素之间的margin重叠情况**</font>	<br>
+		发生margin重叠需要满足的三个条件：属于同一个BFC的两个相邻Box的margin会发生重叠<br>
+			解决方法：破坏任意一个条件即可<br>
+				解决方法一 :在外面包一个开启BFC的div<br>
+				解决方法二：加边框，使两个元素不相邻<br>
+				解决方法三：把块元素改成inline元素<br>
+*	<font color=red>**父子元素之间的margin重叠情况**</font>	<br>
+		`<div id="wrap">`<br>
+		`<!--解决方法一 :给wrap开启BFC-->`<br>
+		`<!--解决方法二：加边框，使两个元素不相邻-->`<br>
+			`<div id="inner"></div>`<br>
+		`</div>`<br>
+*	<font color=red>**清除浮动**</font>	<br>
+	*	给父级加高度<br>
+		扩展性不好
+	
+	*	开启BFC<br>
+		overflow-hidden<br>
+		定位<br>
+		浮动<br>
+		ie6 7底下不支持BFC<br>
+	*	层级<br>
+		a.浮动提升半层，只有在浮动的情况下，才需要考虑元素分两层<br>
+			定位元素提一层<br>
+				相对定位会在文档流你有残留<br>
+		b.z-index为1怎么都会比a高;z-index为-1怎么都会比a低<br>
+		
+		
+	*	br标签<br>
+		ie6 不支持<br>
+		违反了结构 行为 样式相分离的原则<br>
+	
+	*	空标签<br>
+		违反了结构 行为 样式 相分离的原则<br>
+			ie6下元素的最小高度为19px<br>
+				可以尝试给元素的fontsize设为0----->2<br>
+				
+	*	伪元素+开启haslayout<br>
+		因为ie6 7下不支持伪元素<br>
+		所以要额外的去开启haslayout<br>
+	<pre>
+    <code>
+        .clearfix{
+		    *zoom:1;
+		}
+	    .clearfix:after{
+		    content:"";
+		    display:block;
+		    clear:both;
+		}
+    </code>
+	</pre>   
+*	<font color=red>**垂直水平居中**</font>	<br>
+	*	方案一：
+		已知宽高的块级元素
+	<pre>
+    <code>
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -50px;
+        margin-top: -50px;
+        width: 100px;
+        height: 100px;
+    </code>
+	</pre>   
+
+    *	方案二：
+        利用绝对定位盒子的特性
+        水平方向上：left + right + width + padding + margin = 包含块padding区域的尺寸
+        垂直方向上：top + bottom + height + padding + margin = 包含块padding区域的尺寸
+	<pre>
+    <code>
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin:   ;
+        width: 100px;
+        height: 100px;
+    </code>
+	</pre>   
+                
+    *	方案三：
+    	未知宽高的块级元素（使用translate3d）
+	<pre>
+    <code>
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%,-50%,0);
+    </code>
+	</pre> 
+        
+    *	方案四:
+    	图片(使用基线，和伪元素)
+	<pre>
+    <code>
+        #wrap img{
+            vertical-align: middle;
+        }
+        #wrap:after{
+            /*占位元素*/
+            content: "";
+            display: inline-block;
+            height: 100%;
+            width: 0;
+            background: pink;
+            vertical-align: middle;
+        }
+    </code>
+	</pre> 
+
+----
