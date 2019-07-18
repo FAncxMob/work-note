@@ -1,0 +1,445 @@
+### css3(层叠样式表)
+
+#### 1. 选择器
+
+*	**样式表的组成:**<br>
+		样式表由规则组成<br>
+				规则由选择器和声明块组成<br>
+					声明块由声明组成<br>
+						声明由CSS属性+CSS属性值组成的键值对<br>
+*	**浏览器渲染样式表的顺序**<br>
+		*从右往左*<br>
+*	**[http://www.ruanyifeng.com/blog/2009/03/css_selectors.html](http://www.ruanyifeng.com/blog/2009/03/css_selectors.html "CSS选择器笔记")**<br>
+	这个博客中包括44个选择器，基本涵盖了CSS2和CSS3的所有规定<br>
+	+ 基本选择器
+	+ 多元素的组合选择器
+	+ CSS 2.1 属性选择器
+	+ CSS 2.1中的伪类
+	+ CSS 2.1中的伪元素
+	+ CSS 3的同级元素通用选择器
+	+ CSS 3 属性选择器
+	+ CSS 3中与用户界面有关的伪类
+	+ CSS 3中的结构性伪类
+	+ CSS 3的反选伪类
+	+ CSS 3中的 :target 伪类
+
+*	**css声明的优先级**
+	+  **选择器的特殊性:**<br>
+    选择器的特殊性由选择器本身的组件确定，特殊性值表述为4个部分，如    0,0,0,0<br>
+	+  **一个选择器的具体特殊性如下确定**：<br>
+			       1.对于选择器中给定的ID属性值，加 0,1,0,0<br>
+			       2.对于选择器中给定的各个类属性，属性选择，或伪类，加 0,0,1,0<br>
+			       3.对于选择器中的给定的各个元素和伪元素，加0,0,0,1<br>
+			       4.通配符选择器的特殊性为0,0,0,0<br>
+			       5.结合符对选择器特殊性没有一点贡献<br>
+			       6.内联声明的特殊性都是1,0,0,0<br>
+			       7.继承没有特殊性<br>
+ 
+			特殊性 1,0,0,0 大于所有以0开头的特殊性(不进位)
+			选择器的特殊性最终都会授予给其对应的声明<br>
+			如果多个规则与同一个元素匹配，而且有些声明互相冲突时，特殊性越大的越占优势
+ 
+				注意：id选择器和属性选择器
+				      div[id="test"]（0,0,1,1） 和 #test（0,1,0,0）  
+	+  **重要声明**<br>
+			有时某个声明比较重要，超过了所有其他声明，css2.1就称之为重要声明<br>
+			并允许在这些声明的结束分号之前插入  !important  来标志<br>
+			必须要准确的放置  !important 否则声明无效。 <br>
+			!important 总是要放在声明的最后，即分号的前面<br>
+			 
+			 标志为 !important的声明并没有特殊的特殊性值，不过要与非重要声明分开考虑。<br>
+			 实际上所有的重要声明会被浏览器分为一组，重要声明的冲突会在其内部解决<br>
+			 非重要声明也会被分为一组，非重要声明的冲突也会在其内部解决<br>
+			 如果一个重要声明与非重要声明冲突，胜出的总是重要声明<br>
+	+  **继承**<br>
+			继承没有特殊性，甚至连0特殊性都没有<br>
+			0特殊性要比无特殊性来的强<br>
+	+  **来源**<br>
+			css样式的来源大致有三种<br>
+			  创作人员<br>
+			  读者<br>
+			  用户代理  <br> 
+			 
+	+  **权重**：<br>
+			   读者的重要声明<br>
+			   创作人员的重要声明<br>
+			   创作人员的正常声明<br>
+			   读者的正常声明<br>
+			   用户代理的声明<br>
+	+  **层叠**<br>
+	+  **如何计算？**
+			1.找出所有相关的规则，这些规则都包含一个选择器<br>
+		    2.计算声明的优先级<br>
+		               先按来源排序<br>
+		               在按选择器的特殊性排序<br>
+		               最终按顺序<br>
+#### 2. 自定义字体
+	自定义字体
+		@font-face
+		字体图标
+			1.制作一套矢量图
+			2.将矢量图与字符进行绑定
+			3.使用工具或者站点生成一套字体
+			4.最终使用
+		 字体兼容处理网站
+	       https://www.fontsquirrel.com/tools/webfont-generator
+	    icomoon字体图标
+	       https://icomoon.io/#home
+
+#### 3. 新增UI方案
+*	**文本新增样式**
+	+	**opacity**
+	+	**rgba**
+	+	**文本阴影(实现浮雕文字，文字模糊)**<br>
+			length(x轴的偏移量)<br>
+			length(y轴的偏移量)<br>
+			length(模糊程度)<br>
+			color(阴影颜色)<br>
+		`text-shadow:10px 10px 10px gray,pink 20px 20px 20px;`
+	+	**高斯模糊（模糊背景）**
+		`filter: blur(10px)`
+	+	**文字描边（webkit内核  文字描边  背景镂空）**
+		`-webkit-text-stroke:pink 4px;`
+	+	**文字排版**<br>
+		unicode-bidi 属性，和 direction 属性，决定如何处理文档中的双书写方向文本<br>
+		`direction:rtl;
+		unicode-bidi:bidi-override;`
+	+	**[溢出显示省略号](####3.BFC)**
+*	**盒模型新增样式**
+	*	**盒模型阴影**<br>
+			关键字(内 外阴影)<br>
+			length(x轴的偏移量)<br>
+			length(y轴的偏移量)<br>
+			length(模糊程度)<br>
+			length(阴影面积)<br>
+			color(阴影颜色)<br>
+		`box-shadow: -10px -10px 10px 0px black , 20px 20px 10px -10px deeppink;`
+	*	**倒影（webkit内核  文字描边  背景镂空）**
+		`-webkit-box-reflect:left 10px;`
+	*	**resize**<br>
+		允许你控制一个元素的可调整大小性<br>
+		`resize :horizontal;`
+	*	**box-sizing**
+		定义了应该如何计算一个元素的总宽度和总高度<br>
+		border-box：代表元素上设置的width和height表示的是border-box尺寸<br>
+		content-box：代表元素上设置的width和height表示的是content-box尺寸<br>
+		`box-sizing: border-box;`
+*	**新增UI样式**
+	*	**渐变**<br>
+		*	**线性渐变**<br>
+		`background-image:linear-gradient(90deg,red 10%,yellow 20%,green 30%) ;`<br>
+		*	**纯色:**<br>`background-image:linear-gradient(90deg,rgba(0,0,0,1) 100px,rgba(0,0,0,1) 300px) ;`<br>
+		*	**重复的渐变:**<br>`background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0),rgba(0,0,0,1) 300px) ;`<br>
+		
+		*	**实现发廊灯**
+		*	**实现光斑动画**
+		*	**径向渐变**
+			`background-image:radial-gradient( closest-corner circle at 20px 20px,yellow, green 50%,pink) ;`
+	*	**border-radius(圆角)**
+	*	**利用border-box实现风车**
+	*	**利用伪元素实现对话框**
+	*	**边框图片**
+	*	**背景图片**
+		*	**css2**
+			*	**background-color**	平铺整个border-box<br>
+			*	**background-image**	默认从padding-box开始绘制，从border-box开始剪裁,css3中有多背景，默认绘制时尺寸是自己的位图像素<br>
+			*	**background-repeat**  控制平铺与否<br>
+			*	**background-position**  控制背景图片在背景区域中的位置<br>
+			百分比:参照于背景区域减去背景图片的位图像素值<br>
+			*	**background-attachment**<br>
+								scroll：默认值，背景图不会随着元素滚动条的滚动而滚动<br>
+								fixed：背景图铺在视口中固定定位了<br>
+		*	**css3**<br>
+			*	background-origin<br>
+			*	background-clip<br>
+				clip 属性是定义元素可见区域的属性。<br>默认情况下背景图片是从padding box开始绘制,从border box开始剪裁	
+			*	background-size <br>
+				图片是自适应的<br>
+	*	**带渐变的倒影（webkit内核  文字描边  背景镂空）**<br>
+		`-webkit-box-reflect:right 0px linear-gradient(-90deg,rgba(0,0,0,.8) , rgba(0,0,0,0));`
+#### 4. 过渡
+*	**过渡的三个坑！！**
+	*	a.过渡只关系元素的初始状态和结束状态，没有方法可以获取元素在过渡中每一帧的状态
+	*	b.元素在初次渲染还没有结束的时候，是没有办法触发过渡的
+	*	c.在绝大部分变换样式的切换时，变换组合的个数或位置不一样时，是没有办法触发过渡的
+*	**transition-property** <br>
+			指定过渡动画的属性（并不是所有的属性都可以动画）
+*	**transition-duration**<br>
+			指定过渡动画的时间（0也要带单位）
+*	**transition-timing-function**<br>
+			指定过渡动画的形式（贝塞尔曲线）
+*	**ransition-delay**<br>
+			指定过渡动画的延迟
+*	**transition**<br>
+			第一个可以被解析成时间的值会赋给transition-duration
+*	**transtionend事件（DOM2）**<br>
+			在每个属性完成过渡时都会触发这个事件
+		当属性值的列表长度不一致时
+			跟时间有关的重复列表
+			transition-timing-function使用默认值
+	`transition-property: background,width,height;`<br>
+				`transition-duration: 1s,0s,1s;`<br>
+	`transition-timing-function: linear;`<br>
+				`transition-delay:3s;`<br>
+*	**简写属性:**<br>
+	`transition: all 1s ease-out;`<br>
+	`transition: margin-right 2s, color 1s;`<br>
+	transition: margin-right 2s .5s;`<br>
+	
+#### 5. 2D变换(transform)
+*	**transform只能使用在块级元素上！！！**
+*	**rotate**
+			旋转
+*	**translate**
+			平移
+*	**skew**
+			斜切
+*	**scale**
+			缩放
+*	**变换组合!**<br>
+	*	顺序是从右往左的，变换的底层其实就是矩阵的运算
+		`transform: scale(.5) translateX(100px);`
+		可以理解为先自己以及坐标轴缩小了0.5倍，然后再向右移动100*0.5px
+*	**基点的变换**<br>
+			`transform-origin:center 100px;`
+			px参照于正中间
+*	**角度转弧度**<br>
+			deg*PI/180
+*	**实现扇形导航**
+*	**实现按钮高亮**
+*	**实现时钟**
+#### 6. 3D变换
+*	**transform只能使用在块级元素上！！！**
+*	**3D旋转**
+	*	**rotate3d(x, y, z, a)**
+		*	x,y,x可以是0到1之间的数值，分别表示旋转轴X,Y,Z坐标方向的矢量。
+		*	**`transform: rotate3d(1, 1, 1, 45deg);`**
+*	**3D平移**
+	*	**translate3d(tx, ty, tz)**
+		*	tx,ty,tz分别代表移动向量的横坐标,纵坐标,z轴坐标。
+		*	**`transform: translate3d(-50%,-50%,-100px);`**
+*	**3D缩放**
+	*	
+	*	**`transform: translateZ(200px);`**,百分比的参照物是自己
+*	**景深**
+	*	让3D场景有近大远小的效果（我们肉眼距离屏幕的距离）,是一个不可继承属性，但他可以作用于后代元素（不是作用于本身的）,景深的基点是视角的位置
+	*	有2种写法
+		*	css属性
+		*	transform属性的一个变换函数（必须在第一位）
+	*	景深越大 灭点越远 元素变形更小,景深越小 灭点越近 元素变形更大
+	*	需要尽量避免景深叠加
+	*	**`perspective: 500px;`**
+*	**transform-style**
+	*	营造有层级的3d舞台,是一个不可继承属性，他作用于子元素
+	*	**`transform-style: preserve-3d;`**
+*	**隐藏元素背面**
+	*	一个元素分两面，但并不意味元素有厚度。在一个状态下，元素只能展现自己的一面	
+	*	**`backface-visibility:hidden`**
+*	实现多棱柱
+#### 7. 动画
+*	**动画内的属性**
+	*	**关键帧的名字**
+		*	`animation-name: move;`
+	*	**作用于一个关键帧周期而非整个动画周期**
+		*	`animation-timing-function: linear;`
+	*	**一个动画周期的时长**
+		*	`animation-duration:3s ;`
+*	**动画外的属性**
+	*	**代表动画的延迟**
+		*	`animation-delay:2s;`
+*	**动画是否反向播放**
+	*	`animation-direction:normal;`
+	*	改变关键帧的执行方向，还会影响animation-timing-function的形式
+*	**动画在结束前运行的次数，可以是infinite**
+	*	`animation-iteration-count: 3;`
+	*	**只作用于动画内的属性,重复的是关键帧**
+*	**管理所有动画外的状态(动画外的状态即from之前,to之后)**
+	*	`animation-fill-mode：forwards`
+	*	**元素在动画外的状态有**
+		*	backwards：from之前的状态与form的状态保持一致
+		*	forwards：to之后的状态与to的状态保持一致
+		*	botn：backwards+forwards
+		*	none: 动画外的状态保持在动画之前的位置
+*	**动画是否运行或者暂停**
+	*	`animation-play-state: running;`
+	*	定义一个动画是否运行或者暂停。可以通过查询它来确定动画是否正在运行。另外，它的值可以被设置为暂停和恢复的动画的重放。
+*	**关键帧**
+	<pre>
+	<code>
+	@keyframes animiationName{
+	     keyframes-selector{
+	          css-style;
+	     }
+    }
+	keyframes-selector可以是关键帧form（0%）和to（100%）
+	可以是百分比,代表的是时间的百分比（时间点） 	
+	</code>
+	</pre>		
+*	**steps(num,[start/end])**
+	*	num:拆成多少步（当num为12时，整个动画最好有13帧）
+	*	start：看不见第一帧
+	*	end：看不见最后一帧			
+#### 8. flex
+
+**[flex布局笔记](https://www.zhangxinxu.com/wordpress/2018/10/display-flex-css3-css/ "display: flex布局笔记")**<br>
+**[flex练习游戏](http://flexboxfroggy.com/ "flex练习游戏")**<br>
+##### 作用在flex容器上的CSS属性
+
+-	 **flex-direction**
+		-	row
+			-	 从左往右
+		-	 row-reverse
+				-	 从右往左
+		-	 column
+				-	 从上往下
+		-	 column-reverse
+				-	 从下往上
+*	**flex-wrap**
+	*	用来控制子项整体单行显示还是换行显示,，如果换行，则下面一行是否反方向显示。
+	*	**nowrap**
+		*	不换行
+		*	flex子项最小内容宽度min-content之和大于flex容器宽度，则内容溢出，表现和white-space:nowrap类似。
+		*	如果flex子项最小内容宽度min-content之和小于flex容器宽度，则：
+			*	flex子项默认的fit-content宽度之和大于flex容器宽度，则flex子项宽度收缩，正好填满flex容器，内容不溢出。
+			*	flex子项默认的fit-content宽度之和小于flex容器宽度，则flex子项以fit-content宽度正常显示，内容不溢出。
+		*	例子：图片默认有设置max-width:100%，flex子项div没有设置宽度，因此，flex子项最小宽度是无限小，表现为图片宽度收缩显示。如果取消max-width:100%样式，则此时flex子项最小宽度就是图片宽度，图片溢出到了flex容器之外。
+	*	**wrap**
+		*	宽度不足换行显示。从上往下
+	*	**wrap-reverse**
+		*	宽度不足换行显示，从下往上
+*	**flex-flow**
+	*	是flex-direction和flex-wrap的缩写
+	*	`flex-flow: row-reverse wrap-reverse;`
+*	**justify-content**
+	*	决定了水平方向子项的对齐和分布方式
+	*	**flex-start**
+		*	默认值，左对齐
+	*	**flex-end**
+		*	右对齐
+	*	**center**
+		*	居中对齐
+	*	**space-between**
+		*	两端对齐
+	*	**space-around**
+		*	around是环绕的意思，意思是每个flex子项两侧都环绕互不干扰的等宽的空白间距，最终视觉上边缘两侧的空白只有中间空白宽度一半。
+	*	**space-evenly**
+		*	evenly是匀称、平等的意思。也就是视觉上，每个flex子项两侧空白间距完全相等
+	*	justify-content可以看成是text-align的远房亲戚，不过前者控制flex元素的水平对齐外加分布，后者控制内联元素的水平对齐。
+*	**align-items**
+	*	items指的就是flex子项们，align-items指的就是flex子项们相对于flex容器在垂直方向上的对齐方式
+	*	**stretch**
+		*	默认值。flex子项高度拉伸到容器高度，如果flex子项设置了高度，则按照设置的高度值渲染，而非拉伸。
+	*	**flex-start**
+		*	容器顶部对齐
+	*	**flex-end**
+		*	容器底部对齐
+	*	**center**
+		*	垂直居中对齐
+	*	**baseline**
+		*	所有flex子项都相对于flex容器的基线(内敛元素的下边缘)对齐
+*	**align-content**
+	*	align-content则是指明垂直方向每一行flex元素的对齐和分布方式，justify-content指明水平方向flex子项的对齐和分布方式，align-content可以看成和justify-content是相似且对立的属性，
+	*	**stretch**
+		*	默认值。每一行flex子元素都等比例拉伸。例如，如果共两行flex子元素，则每一行拉伸高度是50%。
+	*	**flex-start**
+		*	顶部堆砌
+	*	**flex-end**
+		*	底部堆放
+	*	**center**
+		*	垂直居中对齐
+	*	**space-between**
+		*	上下两行两端对齐。剩下每一行元素等分剩余空间
+	*	**space-around**
+		*	每一行元素上下都享有独立不重叠的空白空间
+	*	**space-evenly**
+		*	每一行元素都完全上下等分
+##### 作用在flex子项上的CSS属性
+*	**order**
+	*	通过设置order改变某一个flex子项的排序位置
+	*	所有flex子项的默认order属性值是0，因此，如果我们想要某一个flex子项在最前面显示，可以设置比0小的整数，如-1就可以了。
+*	**flex-grow**
+	*	grow是扩展的意思，，扩展的就是flex子项所占据的宽度，扩展所侵占的空间就是除去元素外的剩余的空白间隙。
+	*	flex-grow不支持负值，默认值是0，表示不占用剩余的空白间隙扩展自己的宽度，如果flex-grow大于0，则flex容器剩余空间的分配就会发生，具体规则如下：
+		*	**所有剩余空间总量是1。**<br>
+		*	**如果只有一个flex子项设置了flex-grow属性值**：<br>
+			*	如果flex-grow值小于1，则扩展的空间就总剩余空间和这个比例的计算值。<br>
+			*	如果flex-grow值大于1，则独享所有剩余空间。<br>
+		*	**如果有多个flex设置了flex-grow属性值：**
+			*	如果flex-grow值总和小于1，则每个子项扩展的空间就总剩余空间和当前元素设置的flex-grow比例的计算值。
+			*	*如果flex-grow值总和大于1，则所有剩余空间被利用，分配比例就是flex-grow属性值的比例。例如所有的flex子项都设置flex-grow:1，则表示剩余空白间隙大家等分，如果设置的flex-grow比例是1:2:1，则中间的flex子项占据一半的空白间隙，剩下的前后两个元素等分。
+*	**flex-shrink**
+	*	shrink是“收缩”的意思，flex-shrink主要处理当flex容器空间不足时候，单个元素的收缩比例。
+	*	flex-shrink不支持负值，默认值是1，也就是默认所有的flex子项都会收缩。如果设置为0，则表示不收缩，保持原始的fit-content宽度。
+	*	**已知flex子项不换行，且容器空间不足，不足的空间就是“完全收缩的尺寸”:**
+		*	如果只有一个flex子项设置了flex-shrink：
+			*	flex-shrink值小于1，则收缩的尺寸不完全，会有一部分内容溢出flex容器。
+			*	flex-shrink值大于等于1，则收缩完全，正好填满flex容器。
+		*	如果多个flex子项设置了flex-shrink：
+			*	flex-shrink值的总和小于1，则收缩的尺寸不完全，每个元素收缩尺寸占“完全收缩的尺寸”的比例就是设置的flex-shrink的值。
+			*	flex-shrink值的总和大于1，则收缩完全，每个元素收缩尺寸的比例和flex-shrink值的比例一样。
+*	**flex-basis**
+	*	定义了在分配剩余空间之前元素的默认大小。相当于对浏览器提前告知：浏览器兄，我要占据这么大的空间，提前帮我预留好。
+	*	默认值是  ，就是自动。有设置width则占据空间就是width，没有设置就按内容宽度来
+	*	如果同时设置width和flex-basis，就渲染表现来看，会忽略width。flex顾名思义就是弹性的意思，因此，实际上不建议对flex子项使用width属性，因为不够弹性。
+	*	当剩余空间不足的时候，flex子项的实际宽度并通常不是设置的flex-basis尺寸，因为flex布局剩余空间不足的时候默认会收缩。
+*	**flex**
+	*	**flex属性是flex-grow，flex-shrink和flex-basis的缩写。**
+	*	flex:1相当于：<br>
+			`flex-shrink: 1;`<br>
+			`flex-grow: 1;`<br>
+			`flex-basis: 0;`<br>
+*	**align-self**
+	*	align-self指控制单独某一个flex子项的垂直对齐方式，写在flex容器上的这个align-items属性，后面是items，有个s，表示子项们，是全体；这里是self，单独一个个体。其他区别不大，语法几乎一样：
+
+##### 其他Flex知识点
+
+*	在Flex布局中，flex子元素的设置float，clear以及vertical-align属性都是没有用的。
+*	**Flexbox布局最适合应用程序的组件和小规模布局（一维布局），而Grid布局则适用于更大规模的布局（二维布局）**
+*	已经8102年了，Flex老语法不用在管了，舒爽弃之，然后私有前缀也不用再加了
+
+#### 9. 媒体查询
+
+*	**css3媒体查询是响应式方案核心**
+*	**媒体类型**
+	*	all              所有媒体（默认值）
+	*	screen           彩色屏幕
+	*	print            打印预览	   
+	*	projection       手持设备
+	*	tv               电视
+    *	braille          盲文触觉设备
+    *	embossed     	 盲文打印机
+    *	speech        	 “听觉”类似的媒体设备
+    *	tty              不适用像素的设备
+*	**媒体属性**
+	*	width			   （可加max min前缀）
+	*	height			   （可加max min前缀）
+	*	device-width	   （可加max min前缀）
+	*	device-pixel-ratio（可加max min前缀，需要加webkit前缀）
+	*	orientation   portrait竖屏  landscape横屏
+*	**操作符，关键字 (only,and,(，or),not)**
+	*	**only：**
+		*	防止老旧的浏览器  不支持带媒体属性的查询而应用到给定的样式.
+	   	*	
+	   			@media only screen and (min-width:800px ){
+	   				规则；
+	   				规则
+	   			}
+	   			@media  screen and (min-width:800px ){
+	   				规则；
+	   				规则
+	   			}
+	    *	在老款的浏览器下
+	   		*	@media only    --->    因为没有only这种设备 规则被忽略
+	   		*	@media screen --->   因为有screen这种设备而且老浏览器会忽略带媒体属性的查询
+	   			
+	   		*	建议在每次抒写media query的时候带上only
+	   	
+	*	**and:**
+	   			连接媒体属性 、连接媒体类型
+	   			对于所有的连接选项都要匹配成功才能应用规则
+	   		
+	*	**or(,) : 和and相似**
+	   			对于所有的连接选项只要匹配成功一个就能应用规则
+	   		
+	*	**not:取反**
+----
