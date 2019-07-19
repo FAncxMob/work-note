@@ -1,14 +1,21 @@
-## css2.1
+# 前端知识点整合笔记
+<!-- TOC -->
+
+- [前端知识点整合笔记](#前端知识点整合笔记)
+- [第一部分 包含css2.1 ,css3,CSS预处理器less,bootstrap,html5](#第一部分-包含css21-css3css预处理器lessbootstraphtml5)
+- [css2.1](#css21)
+    - [1.  三列布局(两边固定，当中自适应，当中列要完整且要优先加载)](#1--三列布局两边固定当中自适应当中列要完整且要优先加载)
+    - [2. 黏连布局(sticky Footer)](#2-黏连布局sticky-footer)
+    - [3. BFC](#3-bfc)
+
+<!-- /TOC -->
+# 第一部分 包含css2.1 ,css3,CSS预处理器less,bootstrap,html5
+
+# css2.1
 
 **CSS:Cascading  style sheets**<br> 
-[https://www.w3.org/TR/2011/REC-css3-selectors-20110929/](https://www.w3.org/TR/2011/REC-css3-selectors-20110929/ "CSS3选择器规范地址")<br>
-[https://www.w3.org/TR/selectors](https://www.w3.org/TR/selectors "CSS3选择最新选择器规范")<br>
-**[页面元素坐标和偏移整理](https://www.cnblogs.com/skylar/p/4121508.html "页面元素坐标和偏移整理")**<br>
-**[flex布局笔记](https://www.zhangxinxu.com/wordpress/2018/10/display-flex-css3-css/ "display: flex布局笔记")**<br>
-**[flex练习游戏](http://flexboxfroggy.com/ "flex练习游戏")**<br>
 
-
-#### 1.  三列布局(两边固定，当中自适应，当中列要完整且要优先加载)
+## 1.  三列布局(两边固定，当中自适应，当中列要完整且要优先加载)
 
 *  <font color=red>**三列布局**</font>
 		* 左边的div往左浮动，右边的div往右边浮动，中间的div宽度自适应  
@@ -74,7 +81,7 @@
       			}`<br>
 			html上的overflow属性作用给文档，body上的overflow属性作用给自己
 
-#### 2. 黏连布局(sticky Footer)
+## 2. 黏连布局(sticky Footer)
 
 	经典的"粘连"布局
 	当我们有一块内容弄<main>
@@ -94,7 +101,7 @@
 				2.  main中padding-bottom:50px
 				3.	footer中margin-top:-50px
 				4.	
-#### 3. BFC
+## 3. BFC
 
 **block formating context块格式化上下文**<br>
 *	<font color=red>**再解释BFC是什么之前，需要介绍Box Formatting Context的概念**</font><br>
@@ -260,5 +267,3 @@
         }
     </code>
 	</pre> 
-
-----
