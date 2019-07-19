@@ -47,6 +47,16 @@
         - [class操作函数](#class操作函数)
         - [全屏实现](#全屏实现)
         - [video写法](#video写法)
+    - [其他新增标签与属性](#其他新增标签与属性)
+        - [状态标签](#状态标签)
+        - [列表标签](#列表标签)
+        - [注释标签](#注释标签)
+        - [标记标签](#标记标签)
+    - [疯狂的表单](#疯狂的表单)
+        - [新增表单控件](#新增表单控件)
+        - [新增表单属性](#新增表单属性)
+        - [表单验证反馈](#表单验证反馈)
+        - [关闭验证](#关闭验证)
 
 <!-- /TOC -->
 ##	**新增标签与属性**
@@ -883,4 +893,150 @@ full.onclick=function() {
 		</object>
 		当前浏览器不支持 video直接播放，点击这里下载视频： <a href="myvideo.webm">下载视频</a>
 	</video>
+## 其他新增标签与属性
+### 状态标签
+-	meter:用来显示已知范围的标量值或者分数值。
+		value:当前的数值。
+		min:值域的最小边界值。如果设置了，它必须比最大值要小。如果没设置，默认为0
+		max:值域的上限边界值。如果设置了，它必须比最小值要大。如果没设置，默认为1
+		low:定义了低值区间的上限值,如果设置了，它必须比最小值属性大，并且不能超过high值和最大值。未设置或者比最小值还要小时，其值即为最小值。
+		high:定义了高值区间的下限值。如果设置了，它必须小于最大值，同时必须大于low值和最小值。如果没有设置，或者比最大值还大，其值即为最大值。
+		optimum:这个属性用来指示最优/最佳取值。
+
+-	progress:用来显示一项任务的完成进度
+		max:该属性描述了这个progress元素所表示的任务一共需要完成多少工作.
+		value：该属性用来指定该进度条已完成的工作量.
+				如果没有value属性,则该进度条的进度为"不确定",
+				也就是说,进度条不会显示任何进度,你无法估计当前的工作会在何时完成
+
+### 列表标签
+-	datalist:datalist会包含一组option元素，这些元素表示其表单控件的可选值
+				它的id必须要和input中的list一致
+	
+-	details: 一个ui小部件，用户可以从其中检索附加信息。
+			open属性来控制附加信息的显示与隐藏
+-	summary:用作 一个`<details>`元素的一个内容摘要（标题）
+	
+### 注释标签
+	ruby
+	rt: 展示文字注音或字符注释。
+	
+### 标记标签
+	marK:着重
+## 疯狂的表单
+	Html5 Forms概述,在Html5中:
+		1.表单仍然使用<form>元素作为容器,我们可以在其中设置基本的提交特性
+			form的action指向一个服务器地址（接口）
+		2.当用户或开发人员提交页面时,表单仍然用于向服务端发送表单中控件的值
+			注意表单项的name属性必须有值，服务器才能获取表单
+		3.所有之前的表单控件都保持不变
+		4.仍然可以使用脚本操作表单控件
+		5.Htnl5之前的表单
+			标签为input
+				type:text:文本框
+				type:password:密码框
+				type:radio:单选按钮
+					注意以name分组，确保单选关系，也为了后台能成功获取
+					必须有value属性，为了后台获取后的识别（不写统一为on）
+					checked属性,选中控制
+				type:checkbox:复选框
+					注意以name分组，确保为一组，也为了后台能成功获取
+					必须有value属性，为了后台获取后的识别（不写统一为on）
+					checked属性,选中控制
+				type:submit:提交按钮
+				type:reset:重置按钮
+				type:button:普通按钮
+			
+			标签为select:下拉框
+				name属性在select标签上
+				multiple:可选多项
+				子项可以通过optgroup来进行分组
+					label属性用来定义组名
+					子项为option标签
+						selected属性,选中控制
+						必须有value属性,为了后台获取后的识别
+			
+			标签为textarea:文本域
+			
+			标签为button:按钮
+				type:submit:提交按钮
+				type:reset:重置按钮
+				type:button:普通按钮
+				
+			标签为lable:控制文本与表单的关系
+				for属性指向一个input的id
+				
+			标签fieldset 标签legend:来为表单分组	
+					
+		6.attr & prop
+		7.Html5 新增
+		
+### 新增表单控件
+		1.type:email :email地址类型
+			当格式不符合email格式时，提交是不会成功的，会出现提示；只有当格式相符时，提交才会通过
+			在移动端获焦的时候会切换到英文键盘
+			
+		2.type:tel :电话类型
+			在移动端获焦的时候会切换到数字键盘
+		
+		3.type:url :url类型
+			当格式不符合url格式时，提交是不会成功的，会出现提示；只有当格式相符时，提交才会通过
+			
+		4.type:search :搜索类型
+			有清空文本的按钮
+			
+		5.type:range  :  特定范围内的数值选择器
+			属性:min、max、step
+		
+		6.
+		  type:number          :  只能包含数字的输入框
+		  type:color  	       		:  颜色选择器
+		  type:datetime        	 :  显示完整日期(移动端浏览器支持)
+		  type:datetime-local  :  显示完整日期，不含时区
+		  type:time            :  显示时间，不含时区
+		  type:date            :  显示日期
+		  type:week            :  显示周
+		  type:month           :  显示月
+
+			
+### 新增表单属性
+		placeholder  :  输入框提示信息
+			适用于form,以及type为text,search,url,tel,email,password类型的input
+			
+		autofocus  :  指定表单获取输入焦点
+		
+		required  :  此项必填，不能为空
+		
+		pattern : 正则验证  pattern="\d{1,5}
+		
+		formaction 在submit里定义提交地址
+		
+		list和datalist  :  为输入框构造一个选择列表
+							list值为datalist标签的id
+		
+		
+		
+### 表单验证反馈
+	validity对象，通过下面的valid可以查看验证是否通过，如果八种验证都通过返回true，一种验证失败返回false
+	node.addEventListener("invalid",fn1,false);
+	
+	valueMissing  	 :  输入值为空时返回true
+	typeMismatch 	 :  控件值与预期类型不匹配返回true
+	patternMismatch  :  输入值不满足pattern正则返回true
+	
+	tooLong  		 :  超过maxLength最大限制返回true
+	rangeUnderflow   :  验证的range最小值返回true
+	rangeOverflow    :  验证的range最大值返回true
+	stepMismatch     :  验证range 的当前值 是否符合min、max及step的规则返回true
+	
+	customError 不符合自定义验证返回true
+		setCustomValidity
+### 关闭验证
+	-	formnovalidate属性
+		
+		
+
+		
+	
+
 
