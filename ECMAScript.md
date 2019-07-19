@@ -1,0 +1,438 @@
+# 第五部分 ECMAScript 5,6,7和JS模块化
+<!-- TOC -->
+
+- [第五部分 ECMAScript 5,6,7和JS模块化](#第五部分-ecmascript-567和js模块化)
+    - [**理解ES**](#理解es)
+    - [**ES5**](#es5)
+        - [严格模式](#严格模式)
+        - [JSON对象](#json对象)
+        - [Object对象扩展](#object对象扩展)
+        - [Array扩展](#array扩展)
+        - [Function](#function)
+    - [**ES6**](#es6)
+        - [常用](#常用)
+            - [1. 关键字扩展](#1-关键字扩展)
+                - [let关键字](#let关键字)
+                - [const关键字](#const关键字)
+            - [2. 变量的解构赋值(解析结构,赋值)](#2-变量的解构赋值解析结构赋值)
+            - [3. 模块字符串](#3-模块字符串)
+            - [4. 对象增强表达](#4-对象增强表达)
+            - [5. 函数扩展](#5-函数扩展)
+                - [箭头函数](#箭头函数)
+                - [形参默认值](#形参默认值)
+                - [rest(可变)参数 (点点点运算符/三点运算符/扩展运算符)](#rest可变参数-点点点运算符三点运算符扩展运算符)
+            - [6. class类](#6-class类)
+            - [7. Promise](#7-promise)
+            - [8. symbol](#8-symbol)
+            - [9. iterator遍历器](#9-iterator遍历器)
+            - [10. Generator函数](#10-generator函数)
+            - [11. Module模块](#11-module模块)
+        - [其他](#其他)
+            - [1. 字符串扩展](#1-字符串扩展)
+            - [2. 数组扩展](#2-数组扩展)
+            - [3. 对象扩展](#3-对象扩展)
+            - [4. 克隆函数](#4-克隆函数)
+            - [5. Set和Map数据结构](#5-set和map数据结构)
+            - [6. for...of循环](#6-forof循环)
+    - [**ES7**](#es7)
+        - [1. 数组的扩展](#1-数组的扩展)
+        - [2. 运算符扩展](#2-运算符扩展)
+        - [3. await异步函数](#3-await异步函数)
+
+<!-- /TOC -->
+## **理解ES**
+-   它是一种由ECMA组织（前身为欧洲计算机制造商协会）制定和发布的脚本语言规范
+-   而我们学的JavaScript是ECMA的实现, 但术语ECMAScript和JavaScript平时表达同一个意思
+-   JS包含三个部分：
+	-   ECMAScript（核心）
+	-   浏览器端扩展
+		-   DOM（文档对象模型）
+		-   BOM（浏览器对象模型）
+	-   服务器端扩展
+		-   Node
+-   ES的几个重要版本
+	-   ES5 : 09年发布
+	-   ES6(ES2015) : 15年发布, 也称为ECMA2015
+	-   ES7(ES2016) : 16年发布, 也称为ECMA2016  (变化不大)
+-   扩展学习参考:
+	-   ES5:
+		-   http://www.zhangxinxu.com/wordpress/2012/01/introducing-ecmascript-5-1/
+		-   http://www.ibm.com/developerworks/cn/web/wa-ecma262/
+	-   ES6:
+		-   http://es6.ruanyifeng.com/
+	-   ES7:
+		-   http://www.w3ctech.com/topic/1614
+## **ES5**
+### 严格模式
+-   **严格模式**
+  * 运行模式: 正常(混杂)模式与严格模式
+  * **使用方法: 在全局或函数的第一条语句定义为: `'use strict';`**
+    *   如果浏览器不支持, 只解析为一条简单的语句, 没有任何副作用 
+  * 作用: 
+    * 使得Javascript在更严格的条件下运行
+    * 消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为
+    * 消除代码运行的一些不安全之处，保证代码运行的安全
+    * 需要记住的几个变化
+      * 声明定义变量必须用var
+      * 禁止自定义的函数中的this关键字指向全局对象
+      * eval有了自己的作用域, 更安全
+### JSON对象
+-   JSON.stringify(obj/arr)
+    -   js对象(数组)转换为json对象(数组)
+-   JSON.parse(json)
+    -   json对象(数组)转换为js对象(数组)
+### Object对象扩展
+-   ES5给Object扩展了好一些静态方法, 常用的2个:
+    -   Object.create(prototype[, descriptors]) : 创建一个新的对象
+        -   **以指定对象为原型创建新的对象**
+        -   **指定新的属性, 并对属性进行描述**
+            -   value : 指定值
+            -   writable : 标识当前属性值是否是可修改的, 默认为true
+            -   configurable: 标识当前属性是否可以被删除 默认为false
+            -   enumerable： 标识当前属性是否能用for in 枚举 默认为false
+            -   get : 用来得到当前属性值的回调函数
+            -   set : 用来监视当前属性值变化的回调函数
+            <pre>
+            <code>
+            var obj = {name : 'curry', age : 29}
+            var obj1 = {};
+            obj1 = Object.create(obj, {
+                sex : {
+                    value : '男',
+                    writable : true
+                    configurable : true
+                    enumerable : true
+                }
+            });
+            obj1.sex = '女';//只有把writable : true,才可以修改这个值
+            </code>
+            </pre>
+-   Object.defineProperties(object, descriptors)
+    -   作用: 为指定对象定义扩展多个属性
+    -   get ：用来获取当前属性值得回调函数
+    -   set ：修改当前属性值得触发的回调函数，并且实参即为修改后的值
+    -   存取器属性：setter,getter一个用来存值，一个用来取值
+        <pre>
+        <code>
+        var obj2 = {
+            firstName : 'curry',
+            lastName : 'stephen'
+        };
+        Object.defineProperties(obj2, {
+            fullName : {
+                get : function () {//获取扩展属性的值，获取扩展属性的值后get方法自动调用
+                //惰性求值
+                    return this.firstName + '-' + this.lastName
+                },
+                set : function (data) {//监听扩展属性，当扩展属性发生变化的时候回自动调用，自动调用后会将变化的值作为实参注入到set函数
+                    var names = data.split('-');
+                    this.firstName = names[0];
+                    this.lastName = names[1];
+                }
+            }
+        });
+        </code>
+        </pre>
+-   对象本身的两个方法
+    -   get propertyName(){} 用来得到当前属性值的回调函数
+    -   set propertyName(){} 用来监视当前属性值变化的回调函数
+    <pre>
+    <code>
+    var obj = {
+        firstName : 'kobe',
+        lastName : 'bryant',
+        get fullName(){
+            return this.firstName + ' ' + this.lastName
+        },
+        set fullName(data){
+            var names = data.split(' ');
+            this.firstName = names[0];
+            this.lastName = names[1];
+        }
+    };
+    </code>
+    </pre>
+### Array扩展
+-   Array.prototype.indexOf(value) : 得到值在数组中的第一个下标
+-   Array.prototype.lastIndexOf(value) : 得到值在数组中的最后一个下标
+-   Array.prototype.forEach(function(item, index){}) : 遍历数组
+-   Array.prototype.map(function(item, index){加工的代码..}) : 遍历数组返回一个新的数组，返回加工之后的值
+-   Array.prototype.filter(function(item, index){条件的代码..}) : 遍历过滤出一个新的子数组， 返回条件为true的值
+### Function
+-   Function.prototype.bind(obj) :
+  * 作用: 将函数内的this绑定为obj, 并将函数返回
+-   面试题: 区别bind()与call()和apply()?
+    * 都能指定函数中的this
+    * call()/apply()是立即调用函数
+    * bind()是将函数返回
+    * call()和apply()在不传参数的情况下，使用方式是一样的
+    * 传入参数的形式
+        -   call(obj,33)//直接从第二个参数开始，依次传入
+        -   apply(obj,{[33]})第二个参数必须是数组，传入的参数放在数组里
+        -   bind的特点:**绑定完this不会立即调用当前的函数，而是将函数返回**
+            bind的传参方式同call一样
+        -   如果要改变回调函数的this只能用bind,因为cal和apply都会立即调用，这破坏了回调函数的本质。
+        <pre>
+        <code>
+        var obj = {};
+        fun.bind(obj, 12)();
+        console.log(obj.name, obj.age);
+        setTimeout(function () {
+            console.log(123)
+        }.bind(obj),1000)
+        </code>
+        </pre>
+---
+## **ES6**
+### 常用
+####  1. 关键字扩展
+##### let关键字
+-   作用:
+    -   与var类似, 用于声明一个变量
+-   特点:
+    -   在块作用域内有效
+    -   不能重复声明
+    -   **不会预处理, 不存在提升**
+-   应用:
+    -   循环遍历加监听(以前都是使用闭包，现在只需要 把var换成let就可以了，因为let有他自己的作用域，每次遍历的值都是私有的，可以保存下来)
+    -   使用let取代var是趋势
+##### const关键字 
+-   作用:
+    -   定义一个常量
+-   特点:
+    -   不能修改
+    -   其它特点同let
+-   应用:
+    -   保存不用改变的数据
+#### 2. 变量的解构赋值(解析结构,赋值)
+-   理解:
+    -   从对象或数组中提取数据, 并赋值给变量(多个)
+-   对象的解构赋值
+    -   let {n, a} = {n:'tom', a:12}
+-   数组的解构赋值
+    -   let [a,b] = [1, 'atguigu'];
+-   用途
+    -   给多个形参赋值
+    <pre>
+    <code>
+    let obj = {name : 'kobe', age : 39};
+    //对象的解构赋值
+    let {age} = obj;
+    console.log(age);//39
+    //数组的解构赋值 不经常用
+    let arr = ['abc', 23, true，222，45];
+    let [, , a, b] = arr;
+    console.log(a, b);//true,222
+    //函数的解构赋值
+    function person1({name, age}) {
+        console.log(name, age);
+    }
+    person1(obj);
+    </code>
+    </pre>
+#### 3. 模块字符串
+-   模板字符串 : 简化字符串的拼接
+    -   模板字符串必须用 `` 包含
+    -   变化的部分使用${xxx}定义
+    <pre>
+    <code>
+    let obj = {
+        name : 'anverson',
+        age : 41
+    };
+    console.log('我叫:' + obj.name + ', 我的年龄是：' + obj.age);
+    console.log(`我叫:${obj.name}, 我的年龄是：${obj.age}`);
+    </code>
+    </pre>
+#### 4. 对象增强表达
+-   简化的对象写法
+    -   省略同名的属性值
+    -   省略方法的function
+    -   例如:
+        <pre>
+        <code>
+        let x = 1;
+        let y = 2;
+        let point = {
+            x,
+            y,
+            setX (x) {this.x = x}
+        };
+        </code>
+        <pre>
+#### 5. 函数扩展
+##### 箭头函数
+-   作用: 定义匿名函数
+-   基本语法:
+    -   参数的情况
+        -   没有参数，小括号不能省略:let fun =  () => console.log('xxxx')
+        -   一个参数时，小括号可以省略:let fun =  i => i+2
+        -   大于一个参数，小括号不能省略: let fun = (i,j) => i+j
+    -   函数体的情况
+        -   函数体只有一条语句或者表达式的时候{}可以省略----->会自动返回执行的结果或者表达式的结果
+        -   函数体如果有多个语句, {}不可以省略，若有需要返回的内容，需要手动返回
+-   使用场景: 多用来定义回调函数
+
+-   **箭头函数的特点：(this是重点)**
+    -   简洁
+    -   **箭头函数没有自己的this，箭头函数的this不是调用的时候决定的，而是在定义的时候处在的对象就是它的this**
+    -   扩展理解： 箭头函数的this看外层的是否有函数，
+        如果有，外层函数的this就是内部箭头函数的this，
+        如果没有，则this是window。
+        <pre>
+        <code>
+        let obj = {
+            name : 'kobe',
+            age : 39,
+            getName : () => {
+                btn2.onclick = () => {
+                    console.log(this);//obj
+                };
+            }
+        };
+        </code>
+        </pre>
+##### 形参默认值
+-   形参的默认值----当不传入参数的时候默认使用形参里的默认值
+    <pre>
+    <code>
+    function Point(x = 1,y = 2) {
+        this.x = x;
+        this.y = y;
+    }
+    </pre>
+    </code>
+##### rest(可变)参数 (点点点运算符/三点运算符/扩展运算符)
+-   用途
+    -   1. 替换apply，扩展运算符可以展开数组，代替apply()将数组转化为函数参数的需求。
+        <pre>
+        <code>
+        //ES5
+        Math.max.apply(null, [1, 3, 5]);
+        //ES6
+        Math.max(...[1, 3, 5]);  
+        </code>
+        </pre>
+    -   2.合并数组
+        <pre>
+        <code>
+        //ES5
+        var arr1 = [8]
+        var arr2 = [9,11,12,13]
+        arr1.push(arr2);
+        //[8,[9,11,12,13]]
+        Array.prototype.push.apply(arr1,arr2);
+        //[8,9,11,12,13]
+
+        // ES6
+        arr1.push(...arr2);
+        console.log(arr1)
+        //[8,9,11,12,13]
+
+        //可以直接写
+        var newArr = [...arr1, ...arr2]
+        console.log(newArr)
+        </code>
+        </pre>
+    -   3.结构赋值
+        <pre>
+        <code>
+        var [a, ...b] = [2,3,4,5,6];
+        console.log(a, b);
+        //2 [3,4,5,6]
+        var [c, ...d] = [2];
+        console.log(c, d);
+        //2 []
+        var [...x,y] = [2,3,4,5,6];
+        //三点运算符用于数组赋值时只能放在参数的最后一位
+        </code>
+        </pre>
+    -   4.把伪数组转化为数组
+        <pre>
+        <code>
+        var strArr = [...'kiwi']
+        console.log(strArr)
+        //["k","i","w","i"]
+        </code>
+        </pre>
+    -   5.对象的扩展运算符
+        <pre>
+        <code>
+        </code>
+        </pre>
+-   rest(可变)参数
+    -   用来取代arguments 但比arguments灵活,**三点运算符用于数组赋值时只能放在参数的最后一位**
+        -   arguments.callee()指向函数本身
+-   扩展运算符
+    **<pre>
+    <code>
+    let arr1 = [1,3,5];
+    let arr2 = [2,...arr1,6];
+    arr2.push(...arr1);
+    console.log(arr2)//2,1,3,5,6,1,3,5
+    </code>
+    </pre>**
+#### 6. class类
+1. 通过class定义类
+2. 在类中通过constructor定义构造方法
+3. 通过new来创建类的实例
+4. 通过extends来实现类的继承
+5. 通过super调用父类的构造方法
+#### 7. Promise
+1. 理解:
+    * Promise对象: 代表了未来某个将要发生的事件(通常是一个异步操作)
+    * 有了promise对象, 可以将异步操作以同步的流程表达出来, 避免了层层嵌套的回调函数(俗称'回调地狱')
+    * ES6的Promise是一个构造函数, 用来生成promise实例
+2. 使用promise基本步骤(2步):
+    * 创建promise对象
+    <pre>
+    <code>
+    let promise = new Promise((resolve, reject) => {
+        //初始化promise状态为 pending
+      //执行异步操作
+      if(异步操作成功) {
+        resolve(value);//修改promise的状态为fullfilled
+      } else {
+        reject(errMsg);//修改promise的状态为rejected
+      }
+    })
+    </code>
+    </pre>
+    * 调用promise的then()
+    <pre>
+    <code>
+    promise.then(function(
+      result => console.log(result),
+      errorMsg => alert(errorMsg)
+    ))
+    </code>
+    </pre>
+3. **promise对象的3个状态**
+    * **pending: 初始化状态**
+    * **fullfilled: 成功状态**
+    * **rejected: 失败状态**
+4. 应用:
+    * 使用promise实现超时处理
+    * 使用promise封装处理ajax请求
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+    }
+    request.responseType = 'json';
+    request.open("GET", url);
+    request.send();
+#### 8. symbol
+#### 9. iterator遍历器
+#### 10. Generator函数
+#### 11. Module模块
+### 其他
+#### 1. 字符串扩展
+#### 2. 数组扩展
+#### 3. 对象扩展
+#### 4. 克隆函数
+#### 5. Set和Map数据结构
+#### 6. for...of循环
+---
+## **ES7**
+### 1. 数组的扩展
+### 2. 运算符扩展
+### 3. await异步函数
