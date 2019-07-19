@@ -1,0 +1,522 @@
+# **CSS预处理器less**
+<!-- TOC -->
+
+- [**CSS预处理器less**](#css预处理器less)
+    - [**什么是less**](#什么是less)
+    - [**注释**](#注释)
+    - [**变量**](#变量)
+    - [**less中的嵌套规则**](#less中的嵌套规则)
+    - [**混合 mixin**](#混合-mixin)
+    - [**计算**](#计算)
+    - [**继承**](#继承)
+    - [**避免编译**](#避免编译)
+- [**Bootstrap栅格系统&源码分析**](#bootstrap栅格系统源码分析)
+    - [什么是Bootstrap](#什么是bootstrap)
+    - [**grid.less(bootstrap的入口)**](#gridlessbootstrap的入口)
+    - [**variables.less**](#variablesless)
+    - [**mixin文件夹下的grid.less文件**](#mixin文件夹下的gridless文件)
+        - [**1. 定义固体和流体容器的公共样式(.container-fixed 有15px的padding)**](#1-定义固体和流体容器的公共样式container-fixed-有15px的padding)
+        - [**2. 定义行(.make-row  有-15px的margin)**](#2-定义行make-row--有-15px的margin)
+    - [**mixin文件夹下的grid-framework.less文件**](#mixin文件夹下的grid-frameworkless文件)
+    - [**mixin文件下的clearfix.less文件**](#mixin文件下的clearfixless文件)
+    - [**容器**](#容器)
+        - [1. 流体布局容器](#1-流体布局容器)
+        - [2. 固定布局](#2-固定布局)
+    - [**栅格系统**](#栅格系统)
+    - [**列偏移**](#列偏移)
+    - [**列排序**](#列排序)
+    - [Bootstrap 栅格系统的精妙之处](#bootstrap-栅格系统的精妙之处)
+
+<!-- /TOC -->
+## **什么是less**
+    less是一种动态样式语言，属于css预处理器的范畴，它扩展了 CSS 语言，增加了变量、Mixin、函数等特性，使 CSS 更易维护和扩展
+	LESS 既可以在 客户端 上运行 ，也可以借助Node.js在服务端运行。
+##	**注释**
+*	以//开头的注释，不会被编译到css文件中
+*	以/**/包裹的注释会被编译到css文件中  
+##	**变量**
+*	**使用@声明变量**
+	*	作为普通属性值只来使用：直接使用@pink
+	*	作为选择器和属性名：#@{selector的值}的形式
+	*	作为URL：@{url}
+        <pre>
+        <code>
+        @color:deeppink;
+        @m:margin;
+        @selector:#wrap;
+        *{
+            @{m}: 0;
+            padding: 0;
+        }
+        @{selector}{
+            position: relative;
+            width: 300px;
+            height: 400px;
+            border: 1px solid;
+            margin: 0   ;
+            .inner{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin:   ;
+                background: @color;
+                height: 100px;
+                width: 100px;
+            }
+        }
+        </code>
+        </pre>
+	*	**变量是块级作用域**
+	*	**变量的延迟加载:**
+        <pre>
+        <code>
+        //变量延迟加载的例子：
+        @var: 0;
+        .class {
+            @var: 1;
+            .brass {
+                @var: 2;
+                three: @var;//3,他会等当前作用域所有东西解析完再来看@var是谁
+                @var: 3;
+            }
+            one: @var;  //1
+        }
+        </pre>
+        </code>
+##	**less中的嵌套规则**
+*	基本嵌套规则
+*	&的使用
+	*	**&:平级**
+        <pre>
+        <code>
+        #wrap{
+            position: relative;
+            width: 300px;
+            height: 400px;
+            .inner{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin:   ;
+                height: 100px;
+                width: 100px;
+            //$代表#wrap .inner
+                &:hover{
+                    background: pink;
+                }
+            }
+        }
+        </pre>
+        </code>
+##	**混合 mixin**
+*	混合就是将一系列属性从一个规则集引入到另一个规则集的方式（相当于ctrl c+ctrl v）
+*	使用**.**的形式来定义
+    *	普通混合(会编译到原生css中的）
+    *	不会输出(不会编译到原生css中的）的混合（加双括号）
+    *	带参数的混合
+    *	带参数并且有默认值的混合
+    *	带多个参数的混合
+    *	命名参数
+    *	匹配模式
+        *	
+    *	arguments变量
+        <pre>
+        <code>
+        .border(@w,@style,@c){
+            border: @arguments;
+        }
+        </pre>
+        </code>
+    *   使用混合
+        <pre>
+        <code>
+        .juzhong(@w:10px,@h:10px,@c:pink){
+            background: @c;
+            height: @h;
+            width: @w;
+        }
+        #wrap{
+        position: relative;
+        width: 300px;
+        height: 400px;
+        border: 1px solid;
+        margin: 0   ;
+            .inner{
+            .juzhong(100px ,100px,pink);
+            }
+            .inner2{
+            .juzhong();//有默认值
+            .juzhong(@c:black);//命名参数,在传形参的时候指定值
+            }
+        }
+        </pre>
+        </code>
+##	**计算**
+*	在less中可以进行加减乘除的运算
+    <pre>
+    <code>
+    @rem:100rem;
+    #wrap .sjx{
+        width:(100 + @rem)//200rem，计算双方只需要一方带单位即可
+    }
+    </pre>
+    </code>
+##	**继承**
+	<pre>
+	<code>
+	#test{
+			&:extend(.father)
+	}
+	#test:extend(.father){
+			
+	}
+	继承实质上将.father选择器和#test组合成一个选择器，声明块使用.father的
+	</code>
+	</pre>
+	*	性能比混合高
+	*	灵活度比混合低
+##	**避免编译**
+*	**使用~**
+*	` padding: ~"cacl(100px + 100)";`
+---
+
+# **Bootstrap栅格系统&源码分析**
+## 什么是Bootstrap
+- 简洁、直观、强悍的前端开发框架，让web开发更迅速、简单
+- 中文网  : http://www.bootcss.com/
+- 英文网  :  http://getbootstrap.com/
+## **grid.less(bootstrap的入口)**
+- **固体容器**
+<pre>
+<code>
+.container {
+    .container-fixed();//调用mixin文件夹下的grid.less混合,定义了固体容器和流体容器的公共样式
+    @media (min-width: @screen-sm-min) {
+        width: @container-sm;
+    }
+    @media (min-width: @screen-md-min) {
+        width: @container-md;
+    }
+    @media (min-width: @screen-lg-min) {
+        width: @container-lg;
+    }
+}
+</code>
+</pre>
+
+- **流体容器**
+<pre>
+<code>
+.container-fluid {
+    .container-fixed();//同固体容器，调用mixin文件夹下的grid.less混合,定义了固体容器和流体容器的公共样式
+}
+</code>
+</pre>
+- **行**
+<pre>
+<code>
+.row {
+    .make-row();//同固体，流体容器，调用mixin文件夹下的grid.less混合
+}
+</code>
+</pre>
+- **列**
+<pre>
+<code>
+.make-grid-columns();//调用mixin文件夹下的grid-framework.less
+</code>
+</pre>
+- **移动端优先**
+<pre>
+<code>
+// 移动优先	
+.make-grid(xs);
+@media (min-width: @screen-sm-min) {
+.make-grid(sm);
+}
+@media (min-width: @screen-md-min) {
+.make-grid(md);
+}
+@media (min-width: @screen-lg-min) {
+.make-grid(lg);
+}
+</code>
+</pre>
+
+## **variables.less**
+- 存放变量
+
+##	**mixin文件夹下的grid.less文件**
+
+### **1. 定义固体和流体容器的公共样式(.container-fixed 有15px的padding)**
+
+<pre>
+<code>
+// 固定和流体容器的公共样式
+//@grid-gutter-widt：槽宽(30px)
+.container-fixed(@gutter: @grid-gutter-width) {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left:  floor((@gutter / 2));//向上取整,槽宽的一半
+    padding-right: ceil((@gutter / 2));//向下取整,槽宽的一半
+    &:extend(.clearfix all);//清除浮动
+}
+</pre>
+</code>
+
+###  **2. 定义行(.make-row  有-15px的margin)**
+
+<pre>
+<code>
+.make-row(@gutter: @grid-gutter-width) {
+    margin-left:  ceil((@gutter / -2));//负的槽宽的一半
+    margin-right: floor((@gutter / -2));//负的槽宽的一半
+    &:extend(.clearfix all);//清除浮动
+}
+</code>
+</pre>
+
+## **mixin文件夹下的grid-framework.less文件**
+- **这整个文件都是用来定义列的**
+- 第一步：(为每个列加15px的padding)
+    <code>
+    <pre>
+    // 列第一步
+    .make-grid-columns() {
+    //.col(2,".col-xs-1, .col-sm-1, .col-md-1, .col-lg-1")
+    .col(@index) { 
+        @item: ~".col-xs-@{index}, .col-sm-@{index}, .col-md-@{index}, .col-lg-@{index}";
+        .col((@index + 1), @item);
+    }
+        /*  递归
+            .col(3,".col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,.col-xs-2, .col-sm-2, .col-md-2, .col-lg-2")
+                ....
+            .col(13,str)
+                str:
+                    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+                    .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+                    ...
+                    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12
+        */
+    .col(@index, @list) when (@index =< @grid-columns) { 
+        @item: ~".col-xs-@{index}, .col-sm-@{index}, .col-md-@{index}, .col-lg-@{index}";
+        .col((@index + 1), ~"@{list}, @{item}");//递归
+    }
+        /*
+            .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+            .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+            ...
+            .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12{
+            position: relative;
+            min-height: 1px;
+            padding-left: 15px;
+            padding-right: 15px;
+            }
+        */
+    .col(@index, @list) when (@index > @grid-columns) {
+        @{list} {//把最终递归完成获得的变量当做选择器来用
+        position: relative;
+        min-height: 1px;
+        padding-left:  ceil((@grid-gutter-width / 2));
+        padding-right: floor((@grid-gutter-width / 2));
+        }
+    }
+    .col(1); 
+    }
+        </code>
+        </pre>
+- 第二步：定义width(2.1),pull和push(2.2)以及offset(2.3)
+    <pre>
+    <code>
+    // 列第二步
+        .make-grid(@class) {
+            //2.1
+            .float-grid-columns(@class);//向左浮动
+            //2.2
+            .loop-grid-columns(@grid-columns, @class, width);//根据所占的列数为columns分配width
+            //2.3(列排序)
+            .loop-grid-columns(@grid-columns, @class, pull);//根据所占的列数为columns分配left
+            .loop-grid-columns(@grid-columns, @class, push);//根据所占的列数为columns分配right
+            //2.4(列偏移)
+            .loop-grid-columns(@grid-columns, @class, offset);//根据所占的列数为columns分配margin
+        }
+        //2.1
+        /*
+        * .col-xs-1,.col-xs-2,.col-xs-3,.col-xs-4,...col-xs-12{
+        *     float: left;
+        * }
+        * */
+        .float-grid-columns(@class) {
+        .col(@index) { 
+            @item: ~".col-@{class}-@{index}";
+            .col((@index + 1), @item);
+        }
+        .col(@index, @list) when (@index =< @grid-columns) { // general
+            @item: ~".col-@{class}-@{index}";
+            .col((@index + 1), ~"@{list}, @{item}");
+        }
+        .col(@index, @list) when (@index > @grid-columns) { // terminal
+            @{list} {
+            float: left;
+            }
+        }
+        .col(1); 
+        }
+        //2.2（width） 2.3（pull push） 2.4（offset）的入口
+        .loop-grid-columns(@index, @class, @type) when (@index >= 0) {
+            .calc-grid-column(@index, @class, @type);
+            .loop-grid-columns((@index - 1), @class, @type);
+        }
+        // 2.2
+        /*
+        * .col-xs-12{
+        *     width:12/12;
+        * }
+        * .col-xs-11{
+        *     width:11/12;
+        * }
+        * ...
+        * .col-xs-1{
+        *     width:1/12;
+        * } 
+        * */
+        .calc-grid-column(@index, @class, @type) when (@type = width) and (@index > 0) {
+            .col-@{class}-@{index} {
+                width: percentage((@index / @grid-columns));
+            }
+        }
+        //2.3
+        /*push                  pull:
+        * .col-xs-push-12{         .col-xs-pull-12{      
+        *     left:12/12;              right:12/12;
+        * }                        }
+        * .col-xs-push-11{
+        *     left:11/12;
+        * }
+        * ...                      ...
+        * .col-xs-push-1{
+        *     left:1/12;
+        * } 
+        * .col-xs-push-0{           .col-xs-pull-0{
+        *     left:auto;               right:auto;
+        * }                         }
+        * */
+        .calc-grid-column(@index, @class, @type) when (@type = push) and (@index > 0) {
+            .col-@{class}-push-@{index} {
+                left: percentage((@index / @grid-columns));
+            }
+        }
+        .calc-grid-column(@index, @class, @type) when (@type = push) and (@index = 0) {
+            .col-@{class}-push-0 {
+                left: auto;
+            }
+        }
+        .calc-grid-column(@index, @class, @type) when (@type = pull) and (@index > 0) {
+            .col-@{class}-pull-@{index} {
+                right: percentage((@index / @grid-columns));
+            }
+        }
+        .calc-grid-column(@index, @class, @type) when (@type = pull) and (@index = 0) {
+            .col-@{class}-pull-0 {
+                right: auto;
+            }
+        }
+        //2.4
+        /*
+        * .col-xs-offset-12{
+        *     margin-left:12/12;
+        * }
+        * .col-xs-offset-11{
+        *     margin-left:11/12;
+        * }
+        * ...
+        * .col-xs-offset-1{
+        *     margin-left:1/12;
+        * } 
+        * .col-xs-offset-0{
+        *     margin-left:0;
+        * } 
+        * */
+        .calc-grid-column(@index, @class, @type) when (@type = offset) {
+            .col-@{class}-offset-@{index} {
+                margin-left: percentage((@index / @grid-columns));
+            }
+        }
+        </code>
+        </pre>
+## **mixin文件下的clearfix.less文件**
+    <pre>
+    <code>
+    .clearfix() {//清除浮动
+        &:before,
+        &:after {
+            content: " "; // 1
+            display: table; // 2
+        }
+        &:after {
+            clear: both;
+        }
+    }
+    </pre>
+    </code>
+## **容器**
+### 1. 流体布局容器
+-  容器的width为\n，只是两边加了15px的padding。
+### 2. 固定布局
+- 容器的width会随设备分辨率的不同而生产变化
+- 分辨率阈值
+<pre>
+<code>
+w >=1200	 	容器的width为1170   左右padding为15 （注意是borderBox）
+1200>w >=992		容器的width为970     左右padding为15 （注意是borderBox）
+992 > w >=768		容器的width为750     左右padding为15  （注意是borderBox）
+768 > w >=992		容器的width为\n    左右padding为15  （注意是borderBox）
+</code>
+</pre>
+- 行
+    - 两侧-15px margin
+- 列的公共样式
+    - 两侧有15px 的padding
+    - 相对定位
+## **栅格系统**
+- col-lg-x    
+- col-md-x
+- col-sm-x
+- col-xs-x
+- x默认拥有12个等级
+##	**列偏移**
+- 调整的是margin-left，分13个等级（0到12）
+        0时为0%
+## **列排序**
+- push的时候调整的是left，分13个等级（0到12）
+        0时为\n
+        
+- pull的时候调整的是right，分13个等级（0到12）
+        0时为\n
+## Bootstrap 栅格系统的精妙之处
+笔记中的内容摘录自: [https://segmentfault.com/a/1190000000743553](https://segmentfault.com/a/1190000000743553)
+- **CONTAINER:**
+    - Container 有两个作用：
+        - 在随时可能的宽度变化(响应式)中提供宽度限制。当页面宽度变化，container 的宽度也随之变化。并且其中的 column 的宽度是基于百分比，所以他们的值不需要变化。
+        - 提供一个水平方向的 padding，使其内部的内容不会接触到浏览器的边界，大小为15px，就是图片中粉红色的部分，作用会在下面说。
+    - 注意，不需要也不应该在 container 中嵌套另一个 container。
+    - ![container](http://www.helloerik.com/wp-content/uploads/image-1.png)
+- **ROW**
+    - Row 是 column 直接存在的容器，按照文档描述 row 中最多可有12个 column，不过可以通过 nesting 的方式灵活扩展。同时作为都是左浮动的 column 的 wrapper，自带 clearfix 的性质。
+    - 同时 row 还有一个很特殊的地方，就是左右各有 －15px 的 margin，就是图片中的蓝色部分。这样也就抵消了上面提到的 container 中15px的 padding
+    - 注意：千万记住要把 row 放到 container 的内部，这样才能保证正常。
+    - ![container](http://www.helloerik.com/wp-content/uploads/image-2.png)
+- **COLUMN**
+    - 每个column 也会有15px的水平方向的 padding，也就是图片中黄色的部分
+    - colunmn 只能在 row 中生存，由于 row 的 margin 为－15px，那么位于两边的 column 就碰到了 container 的边界。但是 colunmn 本身又有 15px 的 padding 使得它其中的内容并不会碰到 container，同时 不同column的内容之间就有了30px的槽
+    - 注意：一定要把 column 放到 row 里使用。
+    - ![container](http://www.helloerik.com/wp-content/uploads/image-3.png)
+- **NESTING**
+    - 把上面一系列的 container, row, column 都设置好，就可以通过 nesting 扩展它的栅格系统了，也就是在 column 中直接嵌套 row，而不需要再套一层 container
+    - ![container](http://www.helloerik.com/wp-content/uploads/image-5.png)
+    - container 和 column 都有15px的 padding ，当 nesting 的时候 column 的作用也相当于 container 了，这样就可以实现任意的嵌套了。
+    - ![container](http://www.helloerik.com/wp-content/uploads/image-6.png)
