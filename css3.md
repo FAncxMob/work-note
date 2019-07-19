@@ -1,26 +1,30 @@
 <!-- TOC -->
 
 - [css3(层叠样式表)](#css3层叠样式表)
-    - [1. 选择器](#1-选择器)
+    - [1. **选择器**](#1-选择器)
         - [**样式表的组成:**](#样式表的组成)
         - [**浏览器渲染样式表的顺序**](#浏览器渲染样式表的顺序)
-        - [css选择器总汇](#css选择器总汇)
+        - [**css选择器总汇**](#css选择器总汇)
         - [**css声明的优先级**](#css声明的优先级)
-    - [2. 自定义字体](#2-自定义字体)
-    - [3. 新增UI方案](#3-新增ui方案)
-    - [4. 过渡](#4-过渡)
-    - [5. 2D变换(transform)](#5-2d变换transform)
-    - [6. 3D变换](#6-3d变换)
-    - [7. 动画](#7-动画)
-    - [8. flex](#8-flex)
-        - [作用在flex容器上的CSS属性](#作用在flex容器上的css属性)
-        - [作用在flex子项上的CSS属性](#作用在flex子项上的css属性)
-        - [其他Flex知识点](#其他flex知识点)
-    - [9. 媒体查询](#9-媒体查询)
+    - [2. **自定义字体**](#2-自定义字体)
+    - [3. **新增UI方案**](#3-新增ui方案)
+    - [**4. 过渡**](#4-过渡)
+    - [**5. 2D变换(transform)**](#5-2d变换transform)
+    - [**6. 3D变换**](#6-3d变换)
+    - [**7. 动画**](#7-动画)
+    - [**8. flex**](#8-flex)
+        - [**作用在flex容器上的CSS属性**](#作用在flex容器上的css属性)
+        - [**作用在flex子项上的CSS属性**](#作用在flex子项上的css属性)
+        - [**其他Flex知识点**](#其他flex知识点)
+    - [**9. 媒体查询**](#9-媒体查询)
 
 <!-- /TOC -->
 # css3(层叠样式表)
-
+[https://www.w3.org/TR/2011/REC-css3-selectors-20110929/](https://www.w3.org/TR/2011/REC-css3-selectors-20110929/ "CSS3选择器规范地址")<br>
+[https://www.w3.org/TR/selectors](https://www.w3.org/TR/selectors "CSS3选择最新选择器规范")<br>
+**[页面元素坐标和偏移整理](https://www.cnblogs.com/skylar/p/4121508.html "页面元素坐标和偏移整理")**<br>
+**[flex布局笔记](https://www.zhangxinxu.com/wordpress/2018/10/display-flex-css3-css/ "display: flex布局笔记")**<br>
+**[flex练习游戏](http://flexboxfroggy.com/ "flex练习游戏")**<br>
 ## 1. **选择器**
 
 ###	**样式表的组成:**  
