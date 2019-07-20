@@ -542,7 +542,7 @@
     //获取遍历器对象
     let SX = sendXml();
     SX.next()
-    </coed>
+    </code>
     </pre>
 
 #### 11. async函数(源自ES2017)
