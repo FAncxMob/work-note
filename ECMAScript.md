@@ -544,7 +544,9 @@
     SX.next()
     </coed>
     </pre>
+
 #### 11. async函数(源自ES2017)
+
 -   概念： **真正意义上去解决异步回调的问题，同步流程表达异步操作(优于promise和generator)**
 -   本质： Generator的语法糖
 -   语法：
@@ -578,7 +580,7 @@
         let result = await getNews('http://localhost:3000/news?id=6')//发送请求获得新闻内容
         result = await getNews('http://localhost:3000' + result.commentsUrl)//发送请求获取评论信息
     }
-  sendXml()
+    sendXml()
     </code>
     </pre>
 #### 12. Module模块
