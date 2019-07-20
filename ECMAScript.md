@@ -22,11 +22,12 @@
                 - [形参默认值](#形参默认值)
                 - [rest(可变)参数 (点点点运算符/三点运算符/扩展运算符)](#rest可变参数-点点点运算符三点运算符扩展运算符)
             - [6. class类](#6-class类)
-            - [7. Promise](#7-promise)
+            - [**7. Promise**](#7-promise)
             - [8. symbol](#8-symbol)
             - [9. iterator遍历器](#9-iterator遍历器)
             - [10. Generator函数](#10-generator函数)
-            - [11. Module模块](#11-module模块)
+            - [11. async函数(源自ES2017)](#11-async函数源自es2017)
+            - [12. Module模块](#12-module模块)
         - [其他](#其他)
             - [1. 字符串扩展](#1-字符串扩展)
             - [2. 数组扩展](#2-数组扩展)
@@ -378,7 +379,7 @@
 3. 通过new来创建类的实例
 4. 通过extends来实现类的继承
 5. 通过super调用父类的构造方法
-#### 7. Promise
+#### **7. Promise**
 1. 理解:
     * Promise对象: 代表了未来某个将要发生的事件(通常是一个异步操作)
     * 有了promise对象, 可以将异步操作以同步的流程表达出来, 避免了层层嵌套的回调函数(俗称'回调地狱')
@@ -421,9 +422,166 @@
     request.open("GET", url);
     request.send();
 #### 8. symbol
+-   前言：ES5中对象的属性名都是字符串，容易造成重名，污染环境
+-   Symbol：
+    -   概念：ES6中的添加了一种原始数据类型symbol(已有的原始数据类型：String, Number, boolean, null, undefined, 对象)
+    -   特点：
+        -   1、Symbol属性对应的值是唯一的，解决命名冲突问题
+        -   2、Symbol值不能与其他数据进行计算，包括同字符串拼串
+        -   3、for in, for of遍历时不会遍历symbol属性。
+    -   使用：
+        -   1、调用Symbol函数得到symbol值
+            <pre>
+            <code>
+            let symbol = Symbol();
+            let obj = {};
+            obj[symbol] = 'hello';
+            </code>
+            </pre>
+        -   2、传参标识
+            <pre>
+            <code>
+            let symbol = Symbol('one');
+            let symbol2 = Symbol('two');
+            console.log(symbol);// Symbol('one')
+            console.log(symbol2);// Symbol('two')
+            </code>
+            </pre>
+        -   3、内置Symbol值
+            -   除了定义自己使用的Symbol值以外，ES6还提供了11个内置的Symbol值，指向语言内部使用的方法。
+            -   Symbol.iterator
+            -   对象的Symbol.iterator属性，指向该对象的默认遍历器方法(后边讲)
 #### 9. iterator遍历器
+-   概念： iterator是一种接口机制，为各种不同的数据结构提供统一的访问机制
+-    作用：
+    -   1、为各种数据结构，提供一个统一的、简便的访问接口；
+    -   2、使得数据结构的成员能够按某种次序排列
+    -   3、ES6创造了一种新的遍历命令for...of循环，Iterator接口主要供for...of消费。
+    -   工作原理：
+        -   创建一个指针对象，指向数据结构的起始位置。
+        -   第一次调用next方法，指针自动指向数据结构的第一个成员
+        -   接下来不断调用next方法，指针会一直往后移动，直到指向最后一个成员
+        -   每调用next方法返回的是一个包含value和done的对象，{value: 当前成员的值,done: 布尔值}
+            *   value表示当前成员的值，done对应的布尔值表示当前的数据的结构是否遍历结束。
+        *   当遍历结束的时候返回的value值是undefined，done值为false
+-    **原生具备iterator接口的数据(可用for of遍历)**
+    -   **1、Array**
+    -   **2、arguments**
+    -   **3、set容器**
+    -   **4、map容器**
+    -   **5、String**
+    -   **用三点运算符,解构赋值,默认去调用iterator接口**
+    -   当使用for of去遍历某一个数据结构的时候，首先去找System.iterator,找到了就去遍历，没有找到的话不能遍历，报错xxx is not iterable
+    <pre>  
+    <code>
+    //相当于在指定的数据内部结构上部署了iterator
+    //当使用for of去遍历某一个数据结构的时候，首先去找System.iterator,找到了就去遍历，没有找到的话不能遍历，报错xxx is not iterable
+    let targetData = {
+      [Symbol.iterator]:function () {
+        let nextIndex = 0;//记录指针的位置
+        return {//遍历对象
+          next:function () {
+            return nextIndex < this.length? {value: this[nextIndex++],done:false} : {value: undefined,done:true}
+          }
+        }
+      }
+    }
+    </code>
+    </pre>
 #### 10. Generator函数
-#### 11. Module模块
+-    概念：
+    -     1、ES6提供的解决异步编程的方案之一(优于promise)
+    -     2、Generator函数是一个状态机，内部封装了不同状态的数据，
+    -     3、用来生成遍历器对象
+    -     4、可暂停函数(惰性求值), yield可暂停，next方法可启动。每次返回的是yield后的表达式结果
+-   特点：
+    -     1、function 与函数名之间有一个星号
+    -     2、内部用yield表达式来定义不同的状态
+        -     例如：
+        <pre>
+        <code>
+        function* generatorExample(){
+          let result = yield 'hello';  // 状态值为hello
+          yield 'generator'; // 状态值为generator
+        }
+        </code>
+        </pre>
+    -   3、generator函数返回的是指针对象(接11章节里iterator)，而不会执行函数内部逻辑
+    -   4、调用next方法函数内部逻辑开始执行，遇到yield表达式停止，返回{value: yield后的表达式结果/undefined, done: false/true}
+    -   5、再次调用next方法会从上一次停止时的yield处开始，直到最后
+    -   6、yield语句返回结果通常为undefined， 当调用next方法时传参内容会作为开始yield语句的返回值。
+    -   例子1:通过迭代器来不断调用next
+        <pre>
+        <code>
+        // 对象的Symbol.iterator属性;
+        let myIterable = {};
+        myIterable[Symbol.iterator] = function* () {//相当于人为给myIterable部署了一个iterator接口
+        yield 1;
+        yield 2;
+        yield 4;
+        };
+        for(let i of myIterable){
+        console.log(i);//1,2,3  在迭代obj的时候，就是不断地去调用生成器的next方法
+        }
+        </code>
+        </pre>
+    -   例子2:用generator获取新闻内容(对比着promise的方法看)
+    <pre>
+    <code>
+    function getNews(url) {
+      $.get(url,function (data) {
+        console.log(data)
+        let url = 'http://localhost:3000' + data.commentsUrl
+        SX.next(url)//在请求成功后 调用next并传参url，使sendXml中可以获得成功传过来的url
+      })
+    }
+    function * sendXml() {
+      let url = yield getNews('http://localhost:3000/news?id=3')
+      yield getNews(url)
+    }
+    //获取遍历器对象
+    let SX = sendXml();
+    SX.next()
+    </coed>
+    </pre>
+#### 11. async函数(源自ES2017)
+-   概念： **真正意义上去解决异步回调的问题，同步流程表达异步操作(优于promise和generator)**
+-   本质： Generator的语法糖
+-   语法：
+    <pre>
+    <code>
+    async function foo(){
+            await 异步操作;
+            await 异步操作；
+        }
+    </code>
+    </pre>
+-   特点：
+    -   1、不需要像Generator去调用next方法，遇到await等待，当前的异步操作完成就往下执行
+    -   2、返回的总是Promise对象，可以用then方法进行下一步操作
+    -   3、async取代Generator函数的星号*，await取代Generator的yield
+    -   4、语意上更为明确，使用简单，经临床验证，暂时没有任何副作用
+    <pre>
+    <code>
+      // 案例演示:获取新闻内容
+    async function getNews(url) {
+        return new Promise(((resolve, reject) => {
+        $.ajax({
+            method:'GET',
+            url,
+            success:data=>resolve(data),
+            error:error=>reject(error)
+        })
+        }))
+    }
+    async  function sendXml() {
+        let result = await getNews('http://localhost:3000/news?id=6')//发送请求获得新闻内容
+        result = await getNews('http://localhost:3000' + result.commentsUrl)//发送请求获取评论信息
+    }
+  sendXml()
+    </code>
+    </pre>
+#### 12. Module模块
 ### 其他
 #### 1. 字符串扩展
 #### 2. 数组扩展
