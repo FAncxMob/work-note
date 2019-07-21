@@ -2,7 +2,14 @@
 - 6.1 Grunt
 - 6.2 Gulp
 - 6.3 webpack
+<!-- TOC -->
 
+- [第六部分(自动化构建工具)](#第六部分自动化构建工具)
+    - [Grunt](#grunt)
+    - [Gulp](#gulp)
+    - [webpack](#webpack)
+
+<!-- /TOC -->
 ## Grunt
 ## Gulp
 ## webpack
