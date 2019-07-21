@@ -2,6 +2,7 @@
 <!-- TOC -->
 
 - [第五部分 ECMAScript 5,6,7和JS模块化](#第五部分-ecmascript-567和js模块化)
+- [ES5,6,7](#es567)
     - [**理解ES**](#理解es)
     - [**ES5**](#es5)
         - [严格模式](#严格模式)
@@ -43,6 +44,9 @@
         - [3. await异步函数([**11. async函数(源自ES2017)**](#11-async函数源自es2017))](#3-await异步函数11-async函数源自es201711-async函数源自es2017)
 
 <!-- /TOC -->
+
+----
+# ES5,6,7
 ## **理解ES**
 -   它是一种由ECMA组织（前身为欧洲计算机制造商协会）制定和发布的脚本语言规范
 -   而我们学的JavaScript是ECMA的实现, 但术语ECMAScript和JavaScript平时表达同一个意思
