@@ -27,14 +27,14 @@
             - [9. iterator遍历器](#9-iterator遍历器)
             - [10. Generator函数](#10-generator函数)
             - [11. async函数(源自ES2017)](#11-async函数源自es2017)
-            - [12. Module模块](#12-module模块)
+            - [12. Module模块(JS模块化)](#12-module模块js模块化)
         - [其他](#其他)
             - [1. 字符串扩展](#1-字符串扩展)
-            - [2. 数组扩展](#2-数组扩展)
-            - [3. 对象扩展](#3-对象扩展)
-            - [4. 克隆函数](#4-克隆函数)
-            - [5. Set和Map数据结构](#5-set和map数据结构)
-            - [6. for...of循环](#6-forof循环)
+            - [2. 数值扩展](#2-数值扩展)
+            - [3. 数组扩展](#3-数组扩展)
+            - [4. 对象扩展](#4-对象扩展)
+            - [5. 克隆函数](#5-克隆函数)
+            - [7. for...of循环](#7-forof循环)
     - [**ES7**](#es7)
         - [1. 数组的扩展](#1-数组的扩展)
         - [2. 运算符扩展](#2-运算符扩展)
@@ -583,14 +583,83 @@
     sendXml()
     </code>
     </pre>
-#### 12. Module模块
+#### 12. Module模块(JS模块化)
 ### 其他
 #### 1. 字符串扩展
-#### 2. 数组扩展
-#### 3. 对象扩展
-#### 4. 克隆函数
-#### 5. Set和Map数据结构
-#### 6. for...of循环
+-   includes(str) : 判断是否包含指定的字符串
+-   startsWith(str) : 判断是否以指定字符串开头
+-   endsWith(str) : 判断是否以指定字符串结尾
+-   repeat(count) : 重复指定次数
+#### 2. 数值扩展
+-   二进制与八进制数值表示法: 二进制用0b, 八进制用0o
+-   Number.isFinite(i) : 判断是否是有限大的数
+-   Number.isNaN(i) : 判断是否是NaN
+-   Number.isInteger(i) : 判断是否是整数
+-   Number.parseInt(str) : 将字符串转换为对应的数值
+-   Math.trunc(i) : 直接去除小数部分
+#### 3. 数组扩展
+-   **Array.from(v) : 将伪数组对象或可遍历对象转换为真数组**
+-   Array.of(v1, v2, v3) : 将一系列值转换成数组
+-   find(function(value, index, arr){return true}) : 找出第一个满足条件返回true的元素
+-   findIndex(function(value, index, arr){return true}) : 找出第一个满足条件返回true的元素下标
+#### 4. 对象扩展
+-   Object.is(v1, v2)
+    -   判断2个数据是否完全相等(以字符串形式判断)
+    <pre>
+    <code>
+    console.log(Object.is('abc', 'abc'));//true
+    console.log(NaN == NaN);//false
+    console.log(Object.is(NaN, NaN));//true
+
+    console.log(0 == -0);//true
+    console.log(Object.is(0, -0));//false
+    </code>
+    </pre>
+-   Object.assign(target, source1, source2..)
+    -   将源对象的属性复制到目标对象上
+
+-   直接操作 __proto__ 属性
+    `let obj2 = {};`  
+    `obj2.__proto__ = obj1;`
+#### 5. 克隆函数
+ -  1、数据类型：
+    *   数据分为基本的数据类型(String, Number, boolean, Null, Undefined)和对象数据类型
+        -   基本数据类型：
+            -   特点： 存储的是该对象的实际数据
+        - 对象数据类型：
+            -   特点： 存储的是该对象在栈中引用，真实的数据存放在堆内存里
+-   2、复制数据
+    -   基本数据类型存放的就是实际的数据，可直接复制  
+        `let number2 = 2;`   
+        `let number1 = number2;`
+    - 克隆数据：对象/数组
+        -   区别： 浅拷贝/深度拷贝
+        -   判断： 拷贝是否产生了新的数据还是拷贝的是数据的引用
+        -   知识点：对象数据存放的是对象在栈内存的引用，直接复制的是对象的引用  
+            `let obj = {username: 'kobe'}`  
+            `let obj1 = obj; // obj1 复制了obj在栈内存的引用`
+        -   常用的拷贝技术
+            -   arr.concat(): 数组浅拷贝
+            -   arr.slice(): 数组浅拷贝
+            -   JSON.parse(JSON.stringify(arr/obj)): 数组或对象深拷贝, 但不能处理函数数据
+            -   浅拷贝包含函数数据的对象/数组
+            -   深拷贝包含函数数据的对象/数组
+-   拷贝数据：
+    -   基本数据类型：
+        -   拷贝后会生成一份新的数据域，修改拷贝以后的数据不会影响原数据
+    -   对象/数组
+        -   拷贝以后不会生成新的数据，拷贝是引用，修改拷贝以后的数据会影响原来的数据
+-   拷贝数据的方法：
+    -   1. 直接赋值给一个比变量           //浅拷贝
+    -   2. Object.assign()              //浅拷贝
+    -   3. Array.prototype.concat()     //浅拷贝
+    -   4. Array.prototype.slice()      //浅拷贝
+    -   5. JSON.parse(JSON.stringify()) //深拷贝(深度克隆)，拷贝的数据里不能有函数，处理不了
+    -   浅拷贝(对象/数组)：
+        -   特点：拷贝的引用，修改拷贝以后的数据会影响原数组
+    -   深拷贝(深度克隆)
+        -   特点：拷贝的时候生成新数据，修改拷贝以后的数据会影响原数据
+#### 7. for...of循环
 ---
 ## **ES7**
 ### 1. 数组的扩展
