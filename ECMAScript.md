@@ -23,10 +23,10 @@
                 - [rest(可变)参数 (点点点运算符/三点运算符/扩展运算符)](#rest可变参数-点点点运算符三点运算符扩展运算符)
             - [6. class类](#6-class类)
             - [**7. Promise**](#7-promise)
-            - [8. symbol](#8-symbol)
-            - [9. iterator遍历器](#9-iterator遍历器)
-            - [10. Generator函数](#10-generator函数)
-            - [11. async函数(源自ES2017)](#11-async函数源自es2017)
+            - [**8. symbol**](#8-symbol)
+            - [**9. iterator遍历器**](#9-iterator遍历器)
+            - [**10. Generator函数**](#10-generator函数)
+            - [**11. async函数(源自ES2017)**](#11-async函数源自es2017)
             - [12. Module模块(JS模块化)](#12-module模块js模块化)
         - [其他](#其他)
             - [1. 字符串扩展](#1-字符串扩展)
@@ -423,7 +423,7 @@
     request.responseType = 'json';
     request.open("GET", url);
     request.send();
-#### 8. symbol
+#### **8. symbol**
 -   前言：ES5中对象的属性名都是字符串，容易造成重名，污染环境
 -   Symbol：
     -   概念：ES6中的添加了一种原始数据类型symbol(已有的原始数据类型：String, Number, boolean, null, undefined, 对象)
@@ -453,7 +453,7 @@
             -   除了定义自己使用的Symbol值以外，ES6还提供了11个内置的Symbol值，指向语言内部使用的方法。
             -   Symbol.iterator
             -   对象的Symbol.iterator属性，指向该对象的默认遍历器方法(后边讲)
-#### 9. iterator遍历器
+#### **9. iterator遍历器**
 -   概念： iterator是一种接口机制，为各种不同的数据结构提供统一的访问机制
 -    作用：
     -   1、为各种数据结构，提供一个统一的、简便的访问接口；
@@ -490,7 +490,7 @@
     }
     </code>
     </pre>
-#### 10. Generator函数
+#### **10. Generator函数**
 -    概念：
     -     1、ES6提供的解决异步编程的方案之一(优于promise)
     -     2、Generator函数是一个状态机，内部封装了不同状态的数据，
@@ -547,7 +547,7 @@
     </code>
     </pre>
 
-#### 11. async函数(源自ES2017)
+#### **11. async函数(源自ES2017)**
 
 -   概念： **真正意义上去解决异步回调的问题，同步流程表达异步操作(优于promise和generator)**
 -   本质： Generator的语法糖
