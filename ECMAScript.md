@@ -33,12 +33,14 @@
             - [2. 数值扩展](#2-数值扩展)
             - [3. 数组扩展](#3-数组扩展)
             - [4. 对象扩展](#4-对象扩展)
-            - [5. 克隆函数](#5-克隆函数)
-            - [7. for...of循环](#7-forof循环)
+            - [5. 深度克隆](#5-深度克隆)
+                - [**实现检测数据类型的功能函数，深度克隆的clone()方法，**](#实现检测数据类型的功能函数深度克隆的clone方法)
+            - [7. Set容器，Map容器](#7-set容器map容器)
+            - [for...in的用法详解](#forin的用法详解)
     - [**ES7**](#es7)
         - [1. 数组的扩展](#1-数组的扩展)
         - [2. 运算符扩展](#2-运算符扩展)
-        - [3. await异步函数](#3-await异步函数)
+        - [3. await异步函数(async)](#3-await异步函数async)
 
 <!-- /TOC -->
 ## **理解ES**
@@ -621,7 +623,7 @@
 -   直接操作 __proto__ 属性
     `let obj2 = {};`  
     `obj2.__proto__ = obj1;`
-#### 5. 克隆函数
+#### 5. 深度克隆
  -  1、数据类型：
     *   数据分为基本的数据类型(String, Number, boolean, Null, Undefined)和对象数据类型
         -   基本数据类型：
@@ -638,12 +640,6 @@
         -   知识点：对象数据存放的是对象在栈内存的引用，直接复制的是对象的引用  
             `let obj = {username: 'kobe'}`  
             `let obj1 = obj; // obj1 复制了obj在栈内存的引用`
-        -   常用的拷贝技术
-            -   arr.concat(): 数组浅拷贝
-            -   arr.slice(): 数组浅拷贝
-            -   JSON.parse(JSON.stringify(arr/obj)): 数组或对象深拷贝, 但不能处理函数数据
-            -   浅拷贝包含函数数据的对象/数组
-            -   深拷贝包含函数数据的对象/数组
 -   拷贝数据：
     -   基本数据类型：
         -   拷贝后会生成一份新的数据域，修改拷贝以后的数据不会影响原数据
@@ -656,12 +652,97 @@
     -   4. Array.prototype.slice()      //浅拷贝
     -   5. JSON.parse(JSON.stringify()) //深拷贝(深度克隆)，拷贝的数据里不能有函数，处理不了
     -   浅拷贝(对象/数组)：
-        -   特点：拷贝的引用，修改拷贝以后的数据会影响原数组
+        -   特点：拷贝的引用，修改拷贝以后的数据会影响原数组，使得原数据不安全
     -   深拷贝(深度克隆)
         -   特点：拷贝的时候生成新数据，修改拷贝以后的数据会影响原数据
-#### 7. for...of循环
+-   思考：
+    -   如何实现深度拷贝(克隆)
+    -   拷贝的数据里有对象/数组(浅拷贝)
+    -   拷贝的数据里不能有对象/数组
+-   需要掌握的知识点
+    -   如何判断数据类型:
+        -   arr ---> Array, null ---> Null
+        -   1. typeof返回的数据类型:String, Number, Boolean, Undefined, Object, Function
+            -   typeof不能满足我们的需求
+        -   2. Object.prototype.toString.call(obj)
+        <pre>
+        <code>
+        let result = 'abcd';
+        result = null;
+        result = [1,3];
+        console.log(Object.prototype.toString.call(result).slice(8,-1));
+        </code>
+        </pre>
+        -   for...in循环 对象(属性名)  数组(下标)   
+##### **实现检测数据类型的功能函数，深度克隆的clone()方法，**
+    <pre>
+    <code>
+        //定义检测数据类型的功能函数
+    function checkedType(target) {
+        return  Object.prototype.toString.call(target).slice(8,-1)
+    }
+    //实现深度克隆  ---> 针对对象和数组
+    function clone(target) {
+        //判断拷贝的数据类型
+        //初始化变量result 成为最终克隆的数据
+        let result,targetType = checkedType(target);
+        if (targetType === 'Object'){
+            result = {};
+        }else if(targetType === 'Array'){
+            result = [];
+        }else{
+            return target;
+        }
+        //遍历目标数据
+        for(let i in target){
+            let value = target[i];//遍历每一项数据，不管你是对象还是数组
+            //判断目标结构里的每一值是否存在对象/数组
+            if(checkedType(value) === 'Object' ||   checkedType(value) === 'Array'){
+                //继续遍历获取到的value值
+                result[i] = clone(value);//递归
+            }else{//获取到的value值是基本的数据类型
+                result[i] = value;
+            }
+        }
+        return result;
+    }
+    let arr3 = [1,2,{name:'zmy',age:55}]
+    let arr4 = clone(arr3);
+    arr4[2].name = 'fcx'
+    console.log(arr3,arr4)
+    </code>
+    </pre>
+#### 7. Set容器，Map容器
+-   Set容器 : 无序不可重复的多个value的集合体，如果有重复的它会自动帮你删掉重复的内容
+    -   Set()
+    -   Set(array)
+    -   add(value)
+    -   delete(value)
+    -   has(value)
+    -   clear()
+    -   size
+-   Map容器 : 无序的 key不重复的多个key-value的集合体
+    -   Map()
+    -   Map(array)
+    -   set(key, value)//添加
+    -   get(key)
+    -   delete(key)
+  * has(key)
+    -   clear()
+    -   size
+#### for...in的用法详解
+for(let value of target){}循环遍历
+-   遍历数组
+-   遍历Set
+    -   为数组去重
+-   遍历Map
+-   遍历字符串
+-   遍历伪数组
 ---
 ## **ES7**
 ### 1. 数组的扩展
+-   Array.prototype.includes(value) : 
+    -   判断数组中是否包含指定value
 ### 2. 运算符扩展
-### 3. await异步函数
+-   指数运算符(幂): **
+### 3. await异步函数(async)
