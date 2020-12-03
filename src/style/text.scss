@@ -1,0 +1,122 @@
+@import "./variables";
+
+.text-primary {
+  color: $color-primary !important; //主题色
+}
+
+.text-secondary {
+  color: $color-secondary; //辅色
+}
+
+.text-success {
+  color: $color-success; //成功颜色
+}
+
+.text-warning {
+  color: $color-warning; //警告颜色
+}
+
+.text-danger {
+  color: $color-danger; //危险颜色
+}
+
+.text-black-primary {
+  color: $color-text-primary; // 基本文字颜色
+}
+
+.text-placeholder {
+  color: $color-text-placeholder
+}
+
+.text-info {
+  color: $color-info; //信息颜色 
+}
+
+.text-white {
+  color: $color-white; //基础白色
+}
+
+.text-black {
+  color: $color-black; //基础黑色
+}
+
+.text-regular {
+  color: $color-text-regular
+}
+
+.text-light {
+  color: $border-color-light // #dddddd
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.vertical-middle {
+  vertical-align: middle;
+}
+
+.vertical-bottom {
+  vertical-align: bottom;
+}
+
+.fwb {
+  font-weight: bold;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.word-break {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.title-ellipsis-row2 {
+  word-break: break-all;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.text-ellipsis {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@each $i in $fz {
+  .fz#{$i} {
+    font-size: #{$i}px !important;
+  }
+}
+
+@each $i in $iz {
+  .iz#{$i} {
+    font-size: #{$i}px !important;
+  }
+}
+
+@each $i in $lh {
+  .lh#{$i} {
+    line-height: #{$i}px !important;
+  }
+}
+
+@each $i in $lh- {
+  .lh-#{$i} {
+    line-height: #{$i} !important;
+  }
+}

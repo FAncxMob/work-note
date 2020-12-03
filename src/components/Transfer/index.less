@@ -1,0 +1,225 @@
+.geo-transfer-comp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+
+  :global {
+
+    .mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .main {
+
+      font-size: 12px;
+
+      .dialog {
+        width: 676px;
+        position: relative;
+        margin: 0 auto 50px;
+        background: #FFFFFF;
+        border-radius: 2px;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+
+        &__header {
+          position: relative;
+          padding: 20px;
+          padding-bottom: 10px;
+          border: 1px solid #e6e6e6;
+        }
+
+        &__body {
+          padding: 30px 20px;
+          color: #606266;
+          font-size: 14px;
+          word-break: break-all;
+        }
+
+        &__headerbtn {
+          position: absolute;
+          display: block;
+          width: 30px;
+          height: 30px;
+          top: 50%;
+          right: 15px;
+          margin-top: -15px;
+          padding: 0;
+          background: transparent;
+          cursor: pointer;
+          font-size: 16px;
+        }
+
+        .close-btn-icon {
+          position: absolute;
+          top: 50%;
+          right: 50%;
+          margin-top: -10px;
+
+          &:before,
+          &:after {
+            position: absolute;
+            content: ' ';
+            height: 20px;
+            width: 2px;
+            background-color: #909399;
+          }
+
+          &:before {
+            transform: rotate(45deg);
+          }
+
+          &:after {
+            transform: rotate(-45deg);
+          }
+        }
+
+        .dialog__footer {
+          text-align: right;
+          padding: 0 20px 20px 20px;
+
+          button {
+            margin-left: 10px;
+          }
+        }
+      }
+
+
+
+      .geo-transfer-panel {
+        width: 270px;
+      }
+
+      .geo-transfer-panel__body {
+        height: 400px;
+      }
+
+      .geo-transfer-panel__list.is-filterable {
+        height: 385px;
+        overflow: auto;
+        padding-bottom: 6px;
+      }
+
+      .item-box {
+        position: relative;
+
+        .unfold {
+          position: absolute;
+          right: 10px;
+          top: 5px;
+          padding: 3px 7px;
+        }
+      }
+
+      .geo-transfer {
+        background-color: #fff;
+
+        &-panel {
+          border: 1px solid #EBEEF5;
+          border-radius: 4px;
+          overflow: hidden;
+          background: #FFFFFF;
+          display: inline-block;
+          vertical-align: middle;
+          width: 270px;
+          max-height: 100%;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+
+          position: relative;
+
+          &__header {
+            height: 40px;
+            line-height: 40px;
+            background: #F5F7FA;
+            margin: 0;
+            padding-left: 15px;
+            border-bottom: 1px solid #EBEEF5;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            color: #000000;
+          }
+
+          &__filter {
+            text-align: center;
+            margin: 15px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            display: block;
+            width: auto;
+
+            input {
+              border: 1px solid #DCDFE6;
+              line-height: 32px;
+              border-radius: 16px;
+              padding-right: 10px;
+              padding-left: 30px;
+              width: 100%;
+              outline: none;
+              padding: 0 15px;
+              transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            }
+          }
+
+
+
+          &__empty {
+            margin: 0;
+            height: 30px;
+            line-height: 30px;
+            padding: 6px 15px 0;
+            color: #909399;
+            text-align: center;
+          }
+
+          .item-box {
+            position: relative;
+            line-height: 30px;
+            padding-left: 15px;
+            color: #606266;
+
+            .ant-checkbox-wrapper,
+            .unfold {
+              color: #606266;
+            }
+
+            .ant-checkbox-checked+span {
+              color: #56a1fa;
+            }
+
+            .unfold {
+              position: absolute;
+              right: 10px;
+              top: 5px;
+              padding: 3px 7px;
+              font-size: 12px;
+              height: auto;
+              line-height: 1;
+            }
+          }
+        }
+
+        &__buttons {
+          display: inline-block;
+          vertical-align: middle;
+          padding: 0 30px;
+
+          button {
+            display: block;
+            margin: 10px auto;
+          }
+        }
+      }
+    }
+  }
+}

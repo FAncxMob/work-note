@@ -1,0 +1,92 @@
+.app-card-lv1 {
+  display: block;
+  padding: 18px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  color: #555555;
+  background-color: $background-color-base;
+
+  &:not(:last-of-type) {
+    margin-bottom: 20px;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  >h6:first-child {
+    font-size: 15px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $border-color-base;
+    margin-bottom: 10px;
+  }
+}
+
+.app-card-lv2 {
+  display: block;
+  padding: 18px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: $color-white;
+  border-radius: 10px;
+  color: #555555;
+  border: 1px solid $border-color-light;
+
+  &:not(:last-of-type) {
+    margin-bottom: 20px;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  >h6:first-child {
+    position: relative;
+    font-size: 15px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed $border-color-light;
+    margin-bottom: 10px;
+  }
+}
+
+h6.app-title {
+  position: relative;
+  font-size: 16px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid $border-color-base;
+
+  span {
+    position: absolute;
+    right: 20px;
+    font-size: 14px;
+    font-weight: normal;
+  }
+}
+
+// #region scrollbar
+
+/* scrollbar */
+* {
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgb(240, 240, 240);
+    border: 1px solid #fff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(64, 169, 255);
+    border: 1px solid rgb(64, 169, 255);
+    border-radius: 10px;
+  }
+}
+
+// #endregion

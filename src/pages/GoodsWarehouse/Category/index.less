@@ -1,0 +1,35 @@
+@import '~antd/lib/style/themes/default.less';
+
+.tagBox {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  text-align: center;
+  padding: 10px 0;
+  border: 1px solid #D9D9D9;
+  border-radius: 10px;
+  background: #FAFAFA;
+  box-sizing: border-box;
+  width: 154px;
+  margin-bottom: 10px;
+}
+
+.detail-rule {
+  position: relative;
+
+  .ant-form-item-label {
+    position: relative;
+    vertical-align: middle;
+
+    &::before {
+      content: '*';
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 6px;
+      color: red;
+      font-size: 16px;
+    }
+  }
+}

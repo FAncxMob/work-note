@@ -1,0 +1,25 @@
+$color-blue: rgb(64, 169, 255);
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-auto {
+  cursor: auto;
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+.cursor-drag {
+  cursor: pointer;
+  color: darken($color-blue, 50%);
+  transition: color 0.3s ease;
+  font-size: 18px;
+  margin-right: 5px;
+
+  &:hover {
+    color: $color-blue
+  }
+}

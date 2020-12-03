@@ -1,0 +1,33 @@
+@import '~antd/lib/style/themes/default.less';
+
+.item {
+  text-align: center;
+  padding: 15px 0 10px;
+  border: 1px solid #D9D9D9;
+  border-radius: 10px;
+  background: #FAFAFA;
+  box-sizing: border-box;
+  width: 154px;
+  margin-bottom: 10px;
+}
+
+.detail-rule {
+  position: relative;
+
+  .ant-form-item-label {
+    position: relative;
+    vertical-align: middle;
+
+    &::before {
+      content: '*';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 0;
+      vertical-align: middle;
+      margin-right: 6px;
+      color: red;
+      font-size: 16px;
+    }
+  }
+}

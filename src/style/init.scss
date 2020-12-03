@@ -1,0 +1,531 @@
+@import "./variables";
+@import "./text";
+@import "./mouse";
+@import "./common";
+
+// #region 图片标签
+
+.img-cover {
+  object-fit: cover;
+}
+
+.img-contain {
+  object-fit: contain;
+}
+
+.img-percent {
+  width: 100%;
+}
+
+// #endregion
+
+// #region 盒子模型
+
+.dib {
+  display: inline-block !important;
+}
+
+.db {
+  display: block;
+}
+
+.dn {
+  display: none;
+}
+
+// #endregion
+
+// #region 弹性盒子
+
+.df {
+  display: flex !important;
+}
+
+.dif {
+  display: inline-flex !important;
+}
+
+.df-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.align-start {
+  align-items: flex-start !important;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.align-stretch {
+  align-items: stretch;
+}
+
+.align-self-stretch {
+  align-self: stretch;
+}
+
+.align-self-end {
+  align-self: flex-end;
+}
+
+.align-self-start {
+  align-self: flex-start;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.grow-0 {
+  flex-grow: 0 !important;
+}
+
+.grow-1 {
+  flex-grow: 1 !important;
+}
+
+.grow-2 {
+  flex-grow: 2 !important;
+}
+
+.shrink-0 {
+  flex-shrink: 0 !important;
+}
+
+.shrink-1 {
+  flex-shrink: 1 !important;
+}
+
+@each $i in $fx {
+  .fx#{$i} {
+    flex: #{$i} !important;
+  }
+}
+
+// #endregion
+
+// #region 背景图
+
+.bgc-mask {
+  background-color: $background-color-mask;
+}
+
+.bgc-w {
+  background-color: $color-white;
+}
+
+.bgc-primary {
+  background-color: $color-primary;
+}
+
+.bgc-success {
+  background-color: $color-success;
+}
+
+.bgc-warning {
+  background-color: $color-warning;
+}
+
+.bgc-danger {
+  background-color: $color-danger;
+}
+
+.bgc-base {
+  background-color: $background-color-base;
+}
+
+.bg-none {
+  background: none !important;
+}
+
+.bg-cover {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-contain {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.bg-clip-content {
+  background-clip: content-box;
+}
+
+.bg-origin-content {
+  background-origin: content-box;
+}
+
+// #endregion
+
+// #region 背景色
+
+.bgc-none {
+  background-color: none !important;
+}
+
+.bgc-secondary3 {
+  background-color: $color-secondary3;
+}
+
+.bgc-light {
+  background-color: $background-color-light;
+}
+
+.bgc-lighter {
+  background-color: $background-color-lighter;
+}
+
+.bgc-black {
+  background-color: $color-black;
+}
+
+.bgc-white {
+  background-color: $color-white !important;
+}
+
+// #endregion
+
+// #region 边框
+
+.border-none {
+  border: 0 !important;
+}
+
+.border-rule {
+  border: 1px solid $color-primary !important;
+}
+
+.border-warning {
+  border: 1px solid $color-warning !important;
+}
+
+.border-danger {
+  border: 1px solid $color-danger !important;
+}
+
+.border-regular {
+  border: 1px solid $color-text-regular !important;
+}
+
+.border-base {
+  border: 1px solid $border-color-base !important;
+}
+
+.border-base-dashed {
+  border: 1px dashed $border-color-base !important;
+}
+
+.border-light {
+  border: 1px solid $border-color-light !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid $border-color-base !important;
+}
+
+.border-bottom-light {
+  border-bottom: 1px solid $border-color-light;
+}
+
+.border-bottom-light-not-last:not(:last-child) {
+  border-bottom: 1px solid $border-color-light;
+}
+
+.border-bottom-base-not-last:not(:last-child) {
+  border-bottom: 1px solid $border-color-base;
+}
+
+.border-top {
+  border-top: 1px solid $border-color-base !important;
+}
+
+.border-left {
+  border-left: 1px solid $border-color-base !important;
+}
+
+.border-right {
+  border-right: 1px solid $border-color-base !important;
+}
+
+.border-shadow {
+  box-shadow: 0 0 10px 0 rgba(142, 142, 142, .1);
+}
+
+.rotateY-180 {
+  transform-style: preserve-3d;
+  transform: perspective(800px) rotateY(180deg);
+}
+
+// #endregion
+
+// #region 定位与布局
+
+.por {
+  position: relative;
+}
+
+.poa {
+  position: absolute;
+}
+
+.poa-center {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+
+.pof {
+  position: fixed;
+}
+
+.ofh {
+  overflow: hidden;
+}
+
+.ofs {
+  overflow: scroll;
+}
+
+.ofs-y {
+  overflow-y: scroll;
+}
+
+.ofa {
+  overflow: auto;
+}
+
+@each $i in $z-index {
+  .z-index-#{$i} {
+    z-index: #{$i} !important;
+  }
+}
+
+@each $i in $positionTop {
+  .top#{$i} {
+    top: #{$i}px !important;
+  }
+}
+
+@each $i in $positionBottom {
+  .bottom#{$i} {
+    bottom: #{$i}px !important;
+  }
+}
+
+@each $i in $positionLeft {
+  .left#{$i} {
+    left: #{$i}px !important;
+  }
+}
+
+@each $i in $positionRight {
+  .right#{$i} {
+    right: #{$i}px !important;
+  }
+}
+
+.fl {
+  float: left !important;
+}
+
+.fr {
+  float: right !important;
+}
+
+// #endregion
+
+// #region 圆角边框阴影
+
+.bdr50p {
+  border-radius: 50%;
+}
+
+@each $i in $bdr {
+  .bdr#{$i} {
+    border-radius: #{$i}px !important;
+  }
+
+  .bdr-tl#{$i} {
+    border-top-left-radius: #{$i}px !important;
+  }
+
+  .bdr-tr#{$i} {
+    border-top-right-radius: #{$i}px !important;
+  }
+
+  .bdr-bl#{$i} {
+    border-bottom-left-radius: #{$i}px !important;
+  }
+
+  .bdr-br#{$i} {
+    border-bottom-right-radius: #{$i}px !important;
+  }
+}
+
+// #endregion
+
+// #region 尺寸与距离
+
+@each $i in $w {
+  .w#{$i} {
+    width: #{$i}px !important;
+  }
+
+  .max-w#{$i} {
+    max-width: #{$i}px !important;
+  }
+
+  .min-w#{$i} {
+    min-width: #{$i}px !important;
+  }
+}
+
+@each $i in $wp {
+  .w#{$i}p {
+    width: #{$i}#{"%"} !important;
+  }
+
+  .max-w#{$i}p {
+    max-width: #{$i}#{"%"} !important;
+  }
+}
+
+@each $i in $hp {
+  .h#{$i}p {
+    height: #{$i}#{"%"} !important;
+  }
+
+  .max-h#{$i}p {
+    max-height: #{$i}#{"%"} !important;
+  }
+
+  .min-h#{$i}p {
+    min-height: #{$i}#{"%"} !important;
+  }
+}
+
+@each $i in $h {
+  .h#{$i} {
+    height: #{$i}px !important;
+  }
+
+  .min-h#{$i} {
+    min-height: #{$i}px !important;
+  }
+}
+
+@each $i in $p {
+  .p#{$i} {
+    padding: #{$i}px;
+  }
+}
+
+@each $i in $pt {
+  .pt#{$i} {
+    padding-top: #{$i}px;
+  }
+}
+
+@each $i in $pr {
+  .pr#{$i} {
+    padding-right: #{$i}px;
+  }
+}
+
+@each $i in $pb {
+  .pb#{$i} {
+    padding-bottom: #{$i}px;
+  }
+}
+
+@each $i in $pl {
+  .pl#{$i} {
+    padding-left: #{$i}px;
+  }
+}
+
+@each $i in $m {
+  .m#{$i} {
+    margin: #{$i}px !important;
+  }
+}
+
+@each $i in $mt {
+  .mt#{$i} {
+    margin-top: #{$i}px !important;
+  }
+}
+
+@each $i in $mr {
+  .mr#{$i} {
+    margin-right: #{$i}px !important;
+  }
+}
+
+@each $i in $mb {
+  .mb#{$i} {
+    margin-bottom: #{$i}px !important;
+  }
+}
+
+@each $i in $ml {
+  .ml#{$i} {
+    margin-left: #{$i}px !important;
+  }
+}
+
+@each $i in $opacity {
+  .opa#{$i} {
+    opacity: $i / 100;
+  }
+}
+
+.cup {
+  cursor: pointer;
+}
+
+.vis-hide {
+  visibility: hidden
+}
+
+.margin-auto {
+  margin: 0 auto;
+}
+
+// #endregion

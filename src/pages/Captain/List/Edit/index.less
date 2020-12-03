@@ -1,0 +1,37 @@
+.detailRule {
+  position: relative;
+
+  :global {
+    .ant-form-item-label {
+      position: relative;
+
+      &::before {
+        display: inline-block;
+        margin-right: 4px;
+        color: #ff4d4f;
+        font-size: 14px;
+        font-family: SimSun, sans-serif;
+        line-height: 1;
+        content: '*';
+      }
+    }
+  }
+}
+
+.uploadItem {
+  :global {
+    .ant-form-item-control {
+      margin-left: -10px;
+    }
+  }
+
+}
+
+.cardItem {
+  :global {
+    .ant-card-body {
+      padding-bottom: 0;
+    }
+  }
+
+}

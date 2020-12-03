@@ -1,0 +1,30 @@
+.uploadWrapper {
+  :global {
+    .ant-upload.ant-upload-select-picture-card {
+      width: auto;
+      height: auto;
+      padding: 5px;
+    }
+  }
+}
+
+.detailRule {
+  position: relative;
+
+  :global {
+    .ant-form-item-label {
+      position: relative;
+      font-size: 60px;
+
+      &::before {
+        display: inline-block;
+        margin-right: 4px;
+        color: #ff4d4f;
+        font-size: 14px;
+        font-family: SimSun, sans-serif;
+        line-height: 1;
+        content: '*';
+      }
+    }
+  }
+}
